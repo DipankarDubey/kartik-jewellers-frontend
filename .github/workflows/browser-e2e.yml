@@ -21,3 +21,6 @@ jobs:
           npm run dev -- --host 127.0.0.1 > /tmp/vite.log 2>&1 &
           node -e 'const http=require("http");let tries=0;const ping=()=>http.get("http://127.0.0.1:5173",r=>{r.resume();process.exit(0)}).on("error",()=>{if(++tries>30)process.exit(1);setTimeout(ping,1000)});ping()'
           node tests/browser-e2e.mjs
+
+      - name: Exercise actual deployed storefront and auth guards
+        run: node tests/live-browser-smoke.mjs
