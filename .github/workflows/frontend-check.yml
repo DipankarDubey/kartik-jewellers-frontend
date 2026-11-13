@@ -1,0 +1,26 @@
+name: Frontend build and public-route smoke tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-fund
+      - run: npm run build
+      - run: test -f dist/index.html
+      - name: Verify deployed homepage and client-side paths
+        if: github.ref == 'refs/heads/main'
+        run: |
+          set -eu
+          for path in / /collections /admin/login /location /contact; do
+            status=$(curl --retry 3 --retry-delay 5 --retry-all-errors --max-time 40 -L -sS -o /tmp/response.html -w '%{http_code}' "https://kartik-jewellers.onrender.com$path")
+            echo "$path -> HTTP $status"
+            test "$status" = "200"
+            grep -qi '<html' /tmp/response.html
+          done
