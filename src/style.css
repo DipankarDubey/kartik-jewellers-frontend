@@ -9,3 +9,38 @@
 .nav-login:hover,.nav-login.active{background:#7b2441;color:#fff!important}
 @media(max-width:900px){.site-header nav .nav-login{justify-content:flex-start}.brand-emblem{width:40px;height:40px}}
 @media(max-width:480px){.brand-emblem{width:35px;height:35px}.nav-inner{gap:10px}}
+
+
+/* 2026 luxury gold/silver storefront themes and navy admin workspace */
+:root{--luxury-navy:#0b1e36;--luxury-gold:#c89742}
+html[data-metal="silver"]{--burgundy:#17334f;--wine:#1c4262;--gold:#8ca8c5;--gold-light:#dae7f1;--cream:#f0f5fa}
+html[data-metal="silver"] .hero{background:linear-gradient(130deg,#14283e,#345b78)!important}
+html[data-metal="silver"] .page-hero{background:linear-gradient(120deg,#e8f0f8,#fff)!important}
+html[data-metal="silver"] .announcement{background:#152e48!important}
+html[data-metal="silver"] .btn-gold{background:#b9d3e8;color:#17334f}
+html[data-metal="silver"] .story-banner{background:#18334f}
+html[data-metal="silver"] .section-kicker{color:#597b9a}
+.theme-switch{display:flex;align-items:center;gap:3px;background:#e8e9eb;border-radius:99px;padding:4px;border:1px solid #d3d0c9}
+.theme-switch button{border:0;background:transparent;border-radius:99px;padding:8px 16px;cursor:pointer;font-weight:700;color:#263a4c}
+.theme-switch button.selected{background:#ae7c29;color:#fff;box-shadow:0 2px 7px #0002}
+html[data-metal="silver"] .theme-switch button.selected{background:#254768}
+.brand-official{width:180px;max-height:70px;object-fit:contain}
+.brand-small .brand-official{width:190px;max-height:130px}
+.admin-app{background:#f8f6f2}
+.sidebar{background:linear-gradient(165deg,#09182b,#132a48)!important;border-right:1px solid #c99843!important}
+.sidebar .brand{margin:16px auto 32px}
+.sidebar nav a.active{background:linear-gradient(90deg,#c4984b,#e6bc6e)!important;color:#14243b!important}
+.sidebar nav a:not(.active){color:#e6edf6}
+.admin-header{background:#102542!important;color:#f6e4c0!important;border-bottom:1px solid #c49b53}
+.admin-content{background:#faf8f4}
+.stat-card,.admin-panel{border:1px solid #e1cfaf!important;box-shadow:0 6px 20px #12233a0a}
+.stat-icon{background:#e8edf8;color:#18395f}
+.quick-actions .actions-grid a:hover{border-color:#c99843}
+.settings-form{max-width:790px;display:flex;flex-direction:column;gap:18px}
+.settings-form label,.poster-upload label{display:flex;flex-direction:column;gap:8px;font-weight:650}
+.settings-form input,.settings-form textarea,.poster-upload input{width:100%;padding:12px;border:1px solid #d7d0c5;border-radius:9px;font:inherit}
+.poster-upload{display:grid;gap:10px;margin:14px 0}
+.poster-upload img{max-width:250px;max-height:250px;object-fit:contain;border-radius:10px}
+.whatsapp-audience{display:grid;gap:12px}
+.whatsapp-audience>div{display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid #eee;padding:10px}
+@media(max-width:900px){.brand-official{width:130px}.theme-switch button{padding:7px 10px}.whatsapp-audience>div{flex-wrap:wrap}}
