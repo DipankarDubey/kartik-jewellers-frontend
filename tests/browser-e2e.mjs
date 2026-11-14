@@ -51,8 +51,12 @@ try{
  await page.getByLabel('Admin username').fill('test-admin');
  await page.getByLabel('Password').fill('TestOnlyPassword123!');
  await page.getByRole('button',{name:/Sign in securely/i}).click();
- await page.getByText('ADMIN MANAGEMENT').waitFor();
- console.log('PASS: browser admin login (mock token)');
+ // The sidebar caption is intentionally hidden by the storefront's design CSS.
+ // Assert the authenticated admin page and visible navigation instead.
+ await page.getByRole('heading',{name:/Welcome Back, Admin/i}).waitFor({state:'visible'});
+ await page.getByRole('link',{name:'Jewellery Products'}).waitFor({state:'visible'});
+ assert.equal(new URL(page.url()).hash,'#/admin');
+ console.log('PASS: browser admin login and visible dashboard (mock token)');
  await page.goto(base+'/#/admin/products');
  await page.getByRole('heading',{name:'Manage jewellery'}).waitFor();
  await page.getByRole('button',{name:'Add product'}).click();
