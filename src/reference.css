@@ -1,0 +1,100 @@
+
+/* November 2026 – reference composition refinement (Gold & Silver).
+   Deliberately scoped to .kj-site to preserve admin screens. */
+.kj-site{--k-accent:#ac791f;--k-dark:#3c2714;--k-ink:#34271c;--k-paper:#fffcf6;--k-border:#e5cda0;background:var(--k-paper)}
+.kj-site[data-metal="Silver"]{--k-accent:#365c7d;--k-dark:#132e4c;--k-ink:#1c3550;--k-paper:#f5f9fd;--k-border:#c3d3e4;background:var(--k-paper)}
+.kj-site .kj-container{width:min(1310px,calc(100% - 64px))}
+.kj-site .kj-header{height:68px;border-bottom:1px solid var(--k-border);background:#fffdfa}
+.kj-site[data-metal="Silver"] .kj-header{background:#f8fbff}
+.kj-site .kj-navbar{gap:24px}
+.kj-site .kj-logo{width:176px;min-width:176px;gap:7px;min-height:56px;position:relative}
+.kj-site .kj-brand-symbol{width:51px;height:51px;display:flex;align-items:center;justify-content:center;flex:0 0 51px;border:2px solid #c6922f;border-radius:50%;position:relative;overflow:hidden;background:#fff5d9}
+.kj-site .kj-brand-symbol:after{content:"✦";font-size:9px;color:#b67b17;position:absolute;top:1px;left:50%;transform:translateX(-50%)}
+.kj-site .kj-brand-symbol img{height:74px;max-width:none;width:111px;object-fit:cover;object-position:center;position:absolute;top:-10px;left:-29px}
+.kj-site .kj-brand-type{display:flex;flex-direction:column;align-items:center;gap:0;color:#795219;min-width:111px;line-height:1}
+.kj-site .kj-brand-type strong{font-family:Georgia,serif;font-size:21px;font-weight:500;letter-spacing:1.2px}
+.kj-site .kj-brand-type>span{font:700 8px Georgia,serif;letter-spacing:1px;margin-top:3px}
+.kj-site .kj-brand-type small{font:600 6px Georgia,serif;letter-spacing:1.6px;margin-top:4px;white-space:nowrap}
+.kj-site[data-metal="Silver"] .kj-brand-type{color:#315978}
+.kj-site[data-metal="Silver"] .kj-brand-symbol{border-color:#6488a9;background:#edf3f9;filter:grayscale(.8)}
+.kj-site .kj-announcement{min-height:26px;padding:5px max(25px,calc((100vw - 1310px)/2));font-size:9px}
+.kj-site .kj-nav{gap:22px}
+.kj-site .kj-nav a{font-size:12px;letter-spacing:-.2px}
+.kj-site .kj-nav a.active{border:0;position:relative}
+.kj-site .kj-nav a.active:after{content:'';position:absolute;bottom:7px;left:0;right:0;height:2px;background:var(--k-accent)}
+.kj-site .kj-header-actions{gap:13px}
+.kj-site .kj-metal-picker{margin-left:6px}
+.kj-site .kj-metal-picker button{padding:7px 12px}
+.kj-site .kj-reference-hero{border-top:5px solid #92621c;background:linear-gradient(118deg,#fff4df 0%,#fffaf0 50%,#e1b973 100%);position:relative;overflow:hidden}
+.kj-site .kj-reference-hero:before{content:'';position:absolute;left:-90px;bottom:-110px;width:400px;height:230px;border-radius:50%;transform:rotate(-20deg);border:25px solid #dfb26424;pointer-events:none}
+.kj-site .kj-reference-hero:after{content:'';position:absolute;left:-90px;bottom:-110px;width:460px;height:260px;border-radius:50%;transform:rotate(-20deg);border:2px solid #a8781c39;pointer-events:none}
+.kj-site[data-metal="Silver"] .kj-reference-hero{border-top-color:#244967;background:linear-gradient(115deg,#13283f 0%,#173955 56%,#728da8 100%)}
+.kj-site[data-metal="Silver"] .kj-reference-hero:before{border-color:#d4e3ef16}
+.kj-site .kj-reference-hero .kj-hero-grid{grid-template-columns:43% 57%;min-height:388px}
+.kj-site .kj-reference-hero .kj-hero-copy{padding:48px 17px 38px 15px;display:flex;flex-direction:column;justify-content:center}
+.kj-site .kj-reference-hero .kj-kicker{font:700 11px Georgia,serif;letter-spacing:1.45px;color:#986019}
+.kj-site[data-metal="Silver"] .kj-reference-hero .kj-kicker{color:#c5d7e8}
+.kj-site .kj-reference-hero h1{font-size:clamp(38px,4.1vw,62px);margin:12px 0 9px;line-height:1.05;letter-spacing:-1.7px}
+.kj-site .kj-reference-hero h1 em{line-height:1.16;letter-spacing:-2px}
+.kj-site .kj-reference-hero .kj-hero-copy>p:not(.kj-hero-caption){line-height:1.6;font-size:12px;margin:7px 0 17px;max-width:340px}
+.kj-site .kj-reference-hero .kj-hero-buttons{gap:9px;align-items:flex-start}
+.kj-site .kj-reference-hero .kj-btn{font-size:11px;min-height:34px;padding:9px 15px;border-radius:5px}
+.kj-site .kj-reference-hero .kj-hero-caption{margin-top:23px;font-size:11px}
+.kj-site .kj-reference-hero .kj-hero-media{min-height:388px;align-self:stretch;background:#d8b189;overflow:hidden}
+.kj-site .kj-reference-hero .kj-hero-media img{mask-image:linear-gradient(to right,transparent 0%,#000 13%);width:100%;height:100%;object-fit:cover;object-position:center 38%;filter:contrast(1.01) saturate(1.1)}
+.kj-site[data-metal="Silver"] .kj-reference-hero .kj-hero-media{background:#193f5d}
+.kj-site[data-metal="Silver"] .kj-reference-hero .kj-hero-media img{filter:grayscale(.9) sepia(.22) hue-rotate(161deg) contrast(1.08);mix-blend-mode:luminosity;opacity:.86}
+.kj-site .kj-reference-trust .kj-featurestrip{border-radius:0 0 12px 12px;box-shadow:0 7px 25px #9a6b280e}
+.kj-site .kj-reference-trust .kj-featurestrip>div{min-height:60px;padding:9px}
+.kj-site .kj-reference-trust .kj-featurestrip svg{width:19px;height:19px}
+.kj-site .kj-reference-trust .kj-featurestrip strong{font-size:10px}
+.kj-site .kj-reference-trust .kj-featurestrip small{font-size:9px;margin-top:2px}
+.kj-site .kj-reference-categories{padding-top:40px;padding-bottom:23px}
+.kj-site .kj-reference-categories .kj-section-heading{margin-bottom:21px}
+.kj-site .kj-reference-categories .kj-section-heading h2{font-size:clamp(24px,2.5vw,33px)}
+.kj-site .kj-reference-categories .kj-section-heading p{margin-top:6px}
+.kj-site .kj-reference-categories .kj-category-grid{grid-template-columns:repeat(6,1fr);gap:13px}
+.kj-site .kj-reference-categories .kj-category-card{border:1px solid #dfbd80;border-radius:9px;background:#fff8ec;padding-bottom:10px;box-shadow:0 2px 8px #6c431209}
+.kj-site[data-metal="Silver"] .kj-reference-categories .kj-category-card{border-color:#b5cbe0;background:#eef4fa}
+.kj-site .kj-reference-categories .kj-category-card>div{height:142px;background:#fff0d6}
+.kj-site[data-metal="Silver"] .kj-reference-categories .kj-category-card>div{background:#dfeaf4}
+.kj-site .kj-reference-categories .kj-category-card img{padding:4px;object-fit:contain}
+.kj-site .kj-reference-categories .kj-category-card strong{font-size:14px}
+.kj-site .kj-reference-categories .kj-category-card>span{margin-top:4px}
+.kj-site .kj-featured-section{padding-top:28px}
+.kj-site .kj-visit-banner{background:linear-gradient(125deg,#664018,#bf8b3a);border:1px solid #cf9a43}
+.kj-site[data-metal="Silver"] .kj-visit-banner{background:linear-gradient(125deg,#12314b,#3c6386)}
+.kj-site .kj-catalog-layout{grid-template-columns:205px minmax(0,1fr)}
+.kj-site .kj-collection-banner{background:linear-gradient(105deg,#a06d20,#f0c679 90%);color:white}
+.kj-site .kj-collection-banner h1,.kj-site .kj-collection-banner p,.kj-site .kj-collection-banner .kj-overline{color:#fff9e9}
+.kj-site[data-metal="Silver"] .kj-collection-banner{background:linear-gradient(105deg,#14334e,#6381a0)}
+.kj-site .kj-contact-banner{background:linear-gradient(110deg,#fff7e9,#ecd1a2)}
+.kj-site[data-metal="Silver"] .kj-contact-banner{background:linear-gradient(110deg,#e6eff8,#a8c2db)}
+.kj-site[data-metal="Silver"] .kj-contact-banner h1{color:#203c59}
+.kj-site[data-metal="Silver"] .kj-contact-banner p{color:#536b83}
+.kj-site .kj-detail-attributes{border:1px solid var(--k-border);border-radius:8px;padding:12px;background:#fffaf1}
+.kj-site[data-metal="Silver"] .kj-detail-attributes{background:#eef5fb}
+.kj-site .kj-footer-brand .kj-logo{width:178px}
+.kj-site .kj-footer-brand .kj-brand-type{color:#f1d4a0}
+.kj-site .kj-footer-brand .kj-brand-symbol{background:#24180a;border-color:#d8a855}
+@media(max-width:1100px){.kj-site .kj-navbar{gap:11px}.kj-site .kj-nav{gap:12px}.kj-site .kj-header-actions{gap:9px}.kj-site .kj-reference-categories .kj-category-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:820px){.kj-site .kj-header{height:72px}.kj-site .kj-logo{width:156px;min-width:156px}.kj-site .kj-nav{top:72px}.kj-site .kj-reference-hero .kj-hero-grid{grid-template-columns:46% 54%}.kj-site .kj-reference-hero .kj-hero-media{min-height:370px}.kj-site .kj-reference-hero h1{font-size:40px}}
+@media(max-width:600px){.kj-site .kj-container{width:calc(100% - 24px)}.kj-site .kj-logo{width:143px;min-width:143px}.kj-site .kj-brand-symbol{width:38px;height:38px;flex-basis:38px}.kj-site .kj-brand-type strong{font-size:18px}.kj-site .kj-brand-type>span{font-size:6px}.kj-site .kj-brand-type small{font-size:5px}.kj-site .kj-reference-hero .kj-hero-grid{grid-template-columns:1fr}.kj-site .kj-reference-hero .kj-hero-copy{padding:36px 15px 18px}.kj-site .kj-reference-hero .kj-hero-media{min-height:270px}.kj-site .kj-reference-hero .kj-hero-media img{mask-image:linear-gradient(to bottom,transparent 0%,#000 11%)}.kj-site .kj-reference-hero h1{font-size:42px}.kj-site .kj-reference-categories .kj-category-grid{grid-template-columns:repeat(3,1fr);gap:7px}.kj-site .kj-reference-categories .kj-category-card>div{height:102px}.kj-site .kj-reference-categories .kj-category-card strong{font-size:12px}.kj-site .kj-reference-hero .kj-hero-caption{margin-top:15px}}
+
+/* Keep authentic blue fabrics and silver jewellery colours in the second campaign. */
+.kj-site[data-metal="Silver"] .kj-reference-hero .kj-hero-media img{filter:contrast(1.03) saturate(.92);mix-blend-mode:normal;opacity:1}
+/* The reference uses inset framed catalogue cards and a tighter browsing page. */
+.kj-site .kj-collection-banner{padding:40px 0}
+.kj-site .kj-catalog{padding-top:23px}
+.kj-site .kj-filter-panel{border-color:var(--k-border);background:#fffdf8}
+.kj-site[data-metal="Silver"] .kj-filter-panel{background:#fafdff}
+.kj-site .kj-filter-panel h3{font-family:Georgia,serif}
+.kj-site .kj-product-card{border-color:var(--k-border);box-shadow:0 5px 16px #a57d340d}
+.kj-site .kj-product-visual{background:linear-gradient(140deg,#fff9ee,#f5e6cf)}
+.kj-site[data-metal="Silver"] .kj-product-visual{background:linear-gradient(140deg,#f6faff,#dbe5ef)}
+.kj-site .kj-detail-main-image{background:linear-gradient(130deg,#fff7ea,#f1dfc5);border-color:var(--k-border)}
+.kj-site[data-metal="Silver"] .kj-detail-main-image{background:linear-gradient(130deg,#f5f9fd,#dae5f0)}
+.kj-site .kj-contact-form,.kj-site .kj-contact-details{box-shadow:0 6px 19px #a073270d;border-color:var(--k-border)}
+.kj-site .kj-contact-layout{padding-top:45px}
+.kj-site .kj-contact-details .kj-map-preview{background:linear-gradient(140deg,#fff3d8,#f0d5a5)}
+.kj-site[data-metal="Silver"] .kj-contact-details .kj-map-preview{background:linear-gradient(140deg,#f3f8fd,#d8e5f1)}
