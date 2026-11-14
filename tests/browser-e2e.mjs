@@ -36,7 +36,7 @@ try{
  console.log('PASS: visible admin login link');
  await page.getByRole('link',{name:'Collections',exact:true}).first().click();
  await page.getByRole('heading',{name:'Gold Collections'}).waitFor();
- await page.getByRole('button',{name:'Rings',exact:true}).click();
+ await page.getByRole('radio',{name:'Rings',exact:true}).check();
  await page.getByText('Classic Diamond Ring').waitFor();
  assert.equal(await page.getByText('Royal Gold Necklace').count(),0);
  console.log('PASS: collection category filter');
