@@ -4,8 +4,8 @@ import assert from 'node:assert/strict';
 const browser=await chromium.launch({headless:true});
 const page=await browser.newPage({viewport:{width:1365,height:860}});
 const products=[
- {_id:'p1',name:'Royal Gold Necklace',category:'Necklaces',price:125000,active:true,featured:true,imageUrl:'https://res.cloudinary.com/qu6byvci/image/upload/v1794605450/royal-gold-necklace.webp'},
- {_id:'p2',name:'Classic Diamond Ring',category:'Rings',price:95000,active:true,featured:false,imageUrl:'https://res.cloudinary.com/qu6byvci/image/upload/v1794605498/classic-diamond-ring.webp'}
+ {_id:'p1',name:'Royal Gold Necklace',metal:'Gold',category:'Necklaces',price:125000,active:true,featured:true,imageUrl:'https://res.cloudinary.com/qu6byvci/image/upload/v1794605450/royal-gold-necklace.webp'},
+ {_id:'p2',name:'Classic Diamond Ring',metal:'Gold',category:'Rings',price:95000,active:true,featured:false,imageUrl:'https://res.cloudinary.com/qu6byvci/image/upload/v1794605498/classic-diamond-ring.webp'}
 ];
 let sentUpload=false;let newProduct=null;let contactSent=false;
 const api='https://kartik-jewellers-api.onrender.com/api';
@@ -35,7 +35,7 @@ try{
  await page.getByRole('link',{name:/Admin Login/i}).waitFor({state:'visible'});
  console.log('PASS: visible admin login link');
  await page.getByRole('link',{name:'Collections',exact:true}).first().click();
- await page.getByRole('heading',{name:'Our jewellery collections'}).waitFor();
+ await page.getByRole('heading',{name:'Gold jewellery collections'}).waitFor();
  await page.getByRole('button',{name:'Rings',exact:true}).click();
  await page.getByText('Classic Diamond Ring').waitFor();
  assert.equal(await page.getByText('Royal Gold Necklace').count(),0);
