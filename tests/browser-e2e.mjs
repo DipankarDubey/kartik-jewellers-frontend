@@ -35,13 +35,13 @@ try{
  await page.getByRole('link',{name:/Admin Login/i}).waitFor({state:'visible'});
  console.log('PASS: visible admin login link');
  await page.getByRole('link',{name:'Collections',exact:true}).first().click();
- await page.getByRole('heading',{name:'Gold jewellery collections'}).waitFor();
- await page.getByRole('button',{name:'Rings',exact:true}).click();
+ await page.getByRole('heading',{name:'Gold Collections'}).waitFor();
+ await page.getByRole('radio',{name:'Rings',exact:true}).check();
  await page.getByText('Classic Diamond Ring').waitFor();
  assert.equal(await page.getByText('Royal Gold Necklace').count(),0);
  console.log('PASS: collection category filter');
  await page.goto(base+'/#/contact');
- await page.getByPlaceholder('Enter your name').fill('Test Customer');
+ await page.getByPlaceholder('Your full name').fill('Test Customer');
  await page.getByPlaceholder('you@example.com').fill('tester@example.test');
  await page.locator('textarea').last().fill('Product enquiry for test');
  await page.locator('form').last().getByRole('button',{name:/send/i}).click();
@@ -51,7 +51,7 @@ try{
  await page.getByLabel('Admin username').fill('test-admin');
  await page.getByLabel('Password').fill('TestOnlyPassword123!');
  await page.getByRole('button',{name:/Sign in securely/i}).click();
- await page.getByText('STORE MANAGEMENT').waitFor();
+ await page.getByText('ADMIN MANAGEMENT').waitFor();
  console.log('PASS: browser admin login (mock token)');
  await page.goto(base+'/#/admin/products');
  await page.getByRole('heading',{name:'Manage jewellery'}).waitFor();
