@@ -80,3 +80,21 @@
 @media(max-width:1100px){.kj-site .kj-navbar{gap:11px}.kj-site .kj-nav{gap:12px}.kj-site .kj-header-actions{gap:9px}.kj-site .kj-reference-categories .kj-category-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:820px){.kj-site .kj-header{height:72px}.kj-site .kj-logo{width:156px;min-width:156px}.kj-site .kj-nav{top:72px}.kj-site .kj-reference-hero .kj-hero-grid{grid-template-columns:46% 54%}.kj-site .kj-reference-hero .kj-hero-media{min-height:370px}.kj-site .kj-reference-hero h1{font-size:40px}}
 @media(max-width:600px){.kj-site .kj-container{width:calc(100% - 24px)}.kj-site .kj-logo{width:143px;min-width:143px}.kj-site .kj-brand-symbol{width:38px;height:38px;flex-basis:38px}.kj-site .kj-brand-type strong{font-size:18px}.kj-site .kj-brand-type>span{font-size:6px}.kj-site .kj-brand-type small{font-size:5px}.kj-site .kj-reference-hero .kj-hero-grid{grid-template-columns:1fr}.kj-site .kj-reference-hero .kj-hero-copy{padding:36px 15px 18px}.kj-site .kj-reference-hero .kj-hero-media{min-height:270px}.kj-site .kj-reference-hero .kj-hero-media img{mask-image:linear-gradient(to bottom,transparent 0%,#000 11%)}.kj-site .kj-reference-hero h1{font-size:42px}.kj-site .kj-reference-categories .kj-category-grid{grid-template-columns:repeat(3,1fr);gap:7px}.kj-site .kj-reference-categories .kj-category-card>div{height:102px}.kj-site .kj-reference-categories .kj-category-card strong{font-size:12px}.kj-site .kj-reference-hero .kj-hero-caption{margin-top:15px}}
+
+/* Keep authentic blue fabrics and silver jewellery colours in the second campaign. */
+.kj-site[data-metal="Silver"] .kj-reference-hero .kj-hero-media img{filter:contrast(1.03) saturate(.92);mix-blend-mode:normal;opacity:1}
+/* The reference uses inset framed catalogue cards and a tighter browsing page. */
+.kj-site .kj-collection-banner{padding:40px 0}
+.kj-site .kj-catalog{padding-top:23px}
+.kj-site .kj-filter-panel{border-color:var(--k-border);background:#fffdf8}
+.kj-site[data-metal="Silver"] .kj-filter-panel{background:#fafdff}
+.kj-site .kj-filter-panel h3{font-family:Georgia,serif}
+.kj-site .kj-product-card{border-color:var(--k-border);box-shadow:0 5px 16px #a57d340d}
+.kj-site .kj-product-visual{background:linear-gradient(140deg,#fff9ee,#f5e6cf)}
+.kj-site[data-metal="Silver"] .kj-product-visual{background:linear-gradient(140deg,#f6faff,#dbe5ef)}
+.kj-site .kj-detail-main-image{background:linear-gradient(130deg,#fff7ea,#f1dfc5);border-color:var(--k-border)}
+.kj-site[data-metal="Silver"] .kj-detail-main-image{background:linear-gradient(130deg,#f5f9fd,#dae5f0)}
+.kj-site .kj-contact-form,.kj-site .kj-contact-details{box-shadow:0 6px 19px #a073270d;border-color:var(--k-border)}
+.kj-site .kj-contact-layout{padding-top:45px}
+.kj-site .kj-contact-details .kj-map-preview{background:linear-gradient(140deg,#fff3d8,#f0d5a5)}
+.kj-site[data-metal="Silver"] .kj-contact-details .kj-map-preview{background:linear-gradient(140deg,#f3f8fd,#d8e5f1)}
