@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from 'react';
 import{createRoot}from'react-dom/client';
 import{HashRouter,Routes,Route,NavLink,Link,Navigate,useNavigate,useLocation}from'react-router-dom';
-import{Menu,X,Search,MapPin,Phone,Mail,ArrowRight,ShieldCheck,Heart,Store,Instagram,LogIn,LayoutDashboard,Package,Users,Send,LogOut,Plus,Pencil,Trash2,Upload,CheckCircle2,AlertCircle,Image as ImageIcon,CalendarDays,ExternalLink,Gem,ArrowLeft,Settings,MessageCircle}from'lucide-react';
+import{Menu,X,Search,MapPin,Phone,Mail,ArrowRight,ShieldCheck,Heart,Store,Instagram,LogIn,LayoutDashboard,Package,Users,Send,LogOut,Plus,Pencil,Trash2,Upload,CheckCircle2,AlertCircle,Image as ImageIcon,CalendarDays,ExternalLink,Gem,ArrowLeft,Settings,MessageCircle,Sparkles}from'lucide-react';
 import './style.css';
 import {StorefrontShell,HomePage,CatalogPage,DetailPage,AboutPage,ContactPage,WishlistPage} from './showcase.jsx';
 const API=import.meta.env.VITE_API_URL||(import.meta.env.PROD?'https://kartik-jewellers-api.onrender.com/api':'http://localhost:5000/api');
