@@ -130,3 +130,73 @@ html[data-metal="silver"] .page-hero h1{color:#203d56}
 @media(max-width:1250px){.kj-admin-stats{grid-template-columns:repeat(3,minmax(0,1fr))}.kj-admin .sidebar{width:215px;min-width:215px}.kj-admin .sidebar .brand-official{width:165px}}
 @media(max-width:860px){.kj-admin .sidebar{width:68px;min-width:68px;padding:20px 6px}.kj-admin .sidebar .brand-official{width:58px;height:65px}.kj-admin .sidebar-caption{display:none}.kj-admin .sidebar nav a,.kj-admin .sidebar-bottom a,.kj-admin .sidebar-bottom button{font-size:0;justify-content:center;padding:12px 0;gap:0}.kj-admin .sidebar nav a svg,.kj-admin .sidebar-bottom svg{min-width:21px}.kj-admin-dashboard-grid{grid-template-columns:1fr}.kj-admin .admin-content{padding:18px}.kj-admin .admin-header{padding:12px 18px}.kj-admin .admin-header>span{font-size:19px}}
 @media(max-width:510px){.kj-admin-stats{grid-template-columns:repeat(2,1fr)}.kj-admin .admin-header>span small{display:none}.kj-admin .admin-header>div{font-size:0}.kj-admin-welcome{padding:21px}.kj-admin-date{display:none}.kj-admin-action-grid{grid-template-columns:repeat(2,1fr)}.kj-admin .admin-content{padding:12px}.kj-admin-content-card{padding:13px}}
+
+
+/* Reference-matched admin: compact navy sidebar, warm ivory workspace and gold controls. */
+.kj-admin{background:#fff9ef!important}
+.kj-admin .sidebar{width:215px;min-width:215px;background:linear-gradient(160deg,#231c21,#14223a 62%,#0b1a30)!important;border-right:2px solid #c3913c!important;padding:15px 11px}
+.kj-admin .sidebar .brand{height:110px;margin:3px auto 15px;width:100%}
+.kj-admin .sidebar .brand-official{height:100px;max-height:100px;width:190px;object-fit:contain}
+.kj-admin .sidebar-caption{font-size:9px;letter-spacing:2px;color:#ceac67;margin:0 0 17px}
+.kj-admin .sidebar nav{gap:4px}
+.kj-admin .sidebar nav a{min-height:42px;padding:9px 12px;font-size:12px;color:#fff6e8}
+.kj-admin .sidebar nav a.active{background:linear-gradient(120deg,#a16d16,#e0ab54)!important;color:#fff!important}
+.kj-admin .admin-header{min-height:65px;padding:9px 23px;background:#fffdfa!important;color:#3a2b24!important;border-bottom:1px solid #e6cba5;box-shadow:0 2px 9px #352b1a0b}
+.kj-admin .admin-header>span{font-size:21px;color:#322719}
+.kj-admin .admin-header>span small{color:#837265}
+.kj-admin .admin-header .avatar{background:#d5a552;color:#342316}
+.kj-admin .admin-main,.kj-admin .admin-content{background:#fffaf3}
+.kj-admin .admin-content{padding:22px 24px 48px}
+.kj-admin .kj-admin-welcome{border:1px solid #dfbd80;background:#fffdfa;border-radius:10px;min-height:85px;padding:19px 22px;color:#342b22;box-shadow:none;margin-bottom:18px}
+.kj-admin .kj-admin-welcome:before{color:#c39b491a;right:3%}
+.kj-admin .kj-admin-welcome h1{font-family:Georgia,serif;font-size:25px;color:#3b3025;margin:7px 0}
+.kj-admin .kj-admin-welcome p{color:#786d61;font-size:11px}
+.kj-admin .kj-admin-welcome .kj-admin-kicker{color:#af7827}
+.kj-admin .kj-admin-date{color:#816c52;font-size:11px}
+.kj-admin .kj-admin-stats{gap:11px;margin-bottom:14px}
+.kj-admin .kj-admin-stat{min-height:99px;border-radius:9px;box-shadow:0 3px 12px #aa885a12;padding:12px}
+.kj-admin .kj-admin-stat strong{font-size:23px}
+.kj-admin .kj-admin-dashboard-grid{gap:13px;margin-bottom:13px}
+.kj-admin .kj-admin-content-card{min-height:190px;border-radius:10px;border-color:#e7d4b6;padding:16px}
+.kj-admin .kj-admin-content-card>h2,.kj-admin .kj-admin-panel-head h2{font-size:19px;margin-bottom:15px}
+.kj-admin .kj-admin-action-grid{gap:7px}
+.kj-admin .kj-admin-action{min-height:67px;font-size:10px}
+.kj-admin .kj-admin-table-wrap th{padding:8px;background:#fff3de}
+.kj-admin .kj-admin-table-wrap td{padding:8px}
+.kj-admin .admin-heading{margin-bottom:15px}
+.kj-admin .admin-heading h1{font:600 28px Georgia,serif;margin:6px 0}
+.kj-admin .admin-heading p{color:#807061;font-size:12px}
+.kj-admin .admin-panel{background:#fffefa;border-color:#dfcaa6!important;border-radius:9px;padding:18px}
+.kj-admin .data-table{border-collapse:collapse}
+.kj-admin .data-table th{font-size:11px;background:#f9f1e4}
+.kj-admin .data-table td{border-bottom:1px solid #eee1cb;font-size:12px;vertical-align:middle}
+.kj-admin .table-product img{width:55px;height:55px;background:#f9ebd2;border-radius:6px;object-fit:contain}
+.kj-admin .kj-table-category{display:block;font-size:10px;color:#877c70;margin-top:6px}
+.kj-admin .kj-admin-table-filters{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:19px}
+.kj-admin .kj-admin-table-filters select,.kj-admin .kj-admin-search{border:1px solid #e0d1b8;border-radius:6px;background:#fff;padding:10px 12px;font-size:12px;min-height:40px;color:#352d25}
+.kj-admin .kj-admin-search{display:flex;align-items:center;gap:10px;flex:1;min-width:230px;max-width:420px}
+.kj-admin .kj-admin-search input{width:100%;background:transparent;border:0;outline:0;font-size:12px}
+.kj-admin .kj-metal-label{border-radius:12px;padding:5px 10px;font-size:10px;font-weight:700;display:inline-block}
+.kj-admin .kj-metal-label.gold{background:#ffedbf;color:#79501b}
+.kj-admin .kj-metal-label.silver{background:#e5edf5;color:#375675}
+.kj-admin .btn-primary{background:linear-gradient(135deg,#b77b21,#8d550b)!important;border:1px solid #916116;color:#fff!important;border-radius:6px}
+.kj-admin .btn-muted{background:#fff8ea;border-color:#e3c99f;color:#7c551b}
+.kj-admin .table-actions{gap:7px}
+.kj-admin .table-actions button{color:#71532f}
+.kj-admin .table-actions button.delete{color:#b9433f}
+.kj-admin .kj-exact-product-modal{max-height:92vh;overflow:auto;max-width:650px;width:min(650px,calc(100vw - 25px));border:1px solid #e3c083;border-radius:10px}
+.kj-admin .kj-exact-customer-modal{max-height:92vh;overflow:auto;max-width:630px;width:min(630px,calc(100vw - 25px));border:1px solid #e3c083;border-radius:10px}
+.kj-admin .modal-card .modal-header{background:#fff7e7;border-bottom:1px solid #ebd8b9}
+.kj-admin .modal-card h2{font-family:Georgia,serif}
+.kj-admin .modal-form input,.kj-admin .modal-form textarea,.kj-admin .modal-form select{background:#fffefa;border:1px solid #dacbb8;border-radius:5px}
+.kj-admin .campaign-grid{gap:15px}
+.kj-admin .campaign-form{background:#fffefa}
+.kj-admin .campaign-form h2{font:600 21px Georgia,serif}
+.kj-admin .poster-upload{border:1px dashed #d6b984;border-radius:8px;padding:11px;background:#fffcf6}
+.login-page{background:linear-gradient(130deg,#241c1c,#3d2522 35%,#111e31)!important;position:relative}
+.login-page:before{content:'✦';position:absolute;color:#9b742326;font-size:360px;top:0;left:14%;pointer-events:none}
+.login-panel{border:2px solid #b78c47!important;background:#fffdf9!important;max-width:395px;position:relative;z-index:1}
+.login-panel h1{color:#2f2419;font-family:Georgia,serif}
+@media(max-width:1080px){.kj-admin .kj-admin-stats{grid-template-columns:repeat(3,minmax(0,1fr))}.kj-admin .sidebar{width:190px;min-width:190px}}
+@media(max-width:860px){.kj-admin .sidebar{width:66px;min-width:66px;padding:10px 6px}.kj-admin .sidebar .brand{height:65px}.kj-admin .sidebar .brand-official{width:55px;height:55px;object-fit:cover;object-position:left}.kj-admin .sidebar nav a{font-size:0;justify-content:center;padding:11px 0}.kj-admin .admin-content{padding:14px}.kj-admin .kj-admin-dashboard-grid{grid-template-columns:1fr}}
+@media(max-width:500px){.kj-admin .kj-admin-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.kj-admin .kj-admin-welcome{padding:13px}.kj-admin .kj-admin-welcome h1{font-size:21px}.kj-admin .kj-admin-date{display:none}.kj-admin .kj-admin-table-filters{gap:8px}}
