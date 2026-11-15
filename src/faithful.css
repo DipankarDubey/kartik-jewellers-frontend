@@ -148,3 +148,88 @@
 .kj-site[data-metal="Silver"] .kj-exact-trust .kj-featurestrip{background:#f7faff}
 @media(max-width:600px){.kj-site .kj-faithful-brand{width:105px;min-width:105px}.kj-site .kj-faithful-brand img{width:95px;height:63px}}
 @media(prefers-reduced-motion:reduce){.kj-site :is(.kj-btn,.kj-exact-product,.kj-category-card){transition:none}}
+
+/* Keep the portrait's top edge visible and let the text flow below it on small screens. */
+.kj-site .kj-exact-hero .kj-hero-grid {
+  min-height: clamp(410px, 48vw, 720px);
+}
+.kj-site .kj-exact-hero .kj-exact-media img {
+  object-position: center top;
+}
+.kj-site .kj-exact-hero .kj-hero-buttons {
+  width: min(100%, 280px);
+  gap: 12px;
+}
+.kj-site .kj-exact-hero .kj-hero-buttons .kj-btn {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: left;
+}
+.kj-site .kj-exact-hero .kj-hero-buttons .kj-btn svg { flex-shrink: 0; }
+.kj-site .kj-exact-hero .kj-hero-buttons .kj-btn-solid {
+  box-shadow: 0 3px 10px #21160d26, inset 0 1px 0 #ffffff44;
+}
+.kj-site .kj-exact-hero .kj-hero-buttons .kj-btn-outline {
+  border-color: var(--k-accent);
+}
+@media (min-width: 821px) {
+  .kj-site .kj-exact-hero .kj-hero-copy { width: 49%; }
+  .kj-site .kj-exact-hero h1 { font-size: clamp(44px, 5vw, 76px); }
+}
+@media (min-width: 821px) and (max-width: 1020px) {
+  .kj-site .kj-navbar { gap: 12px; }
+  .kj-site .kj-nav { gap: 14px; }
+  .kj-site .kj-faithful-brand { width: 116px; min-width: 116px; }
+}
+@media (max-width: 820px) {
+  .kj-site .kj-exact-hero .kj-hero-grid {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 0;
+  }
+  .kj-site .kj-exact-hero .kj-exact-media {
+    position: relative;
+    inset: auto;
+    z-index: auto;
+    order: -1;
+    width: 100%;
+    aspect-ratio: 1.38;
+    max-height: 420px;
+  }
+  .kj-site .kj-exact-hero .kj-exact-media img {
+    object-position: right top;
+  }
+  .kj-site .kj-exact-hero .kj-hero-copy {
+    width: 100%;
+    padding: 26px clamp(20px, 6vw, 48px) 32px;
+    background: #fff4e5;
+  }
+  .kj-site[data-metal="Silver"] .kj-exact-hero .kj-hero-copy {
+    background: #243950;
+  }
+  .kj-site .kj-exact-hero h1 {
+    max-width: none;
+    font-size: clamp(34px, 8.6vw, 56px);
+    margin: 8px 0 12px;
+  }
+  .kj-site .kj-exact-hero .kj-hero-copy > p:not(.kj-hero-caption) {
+    max-width: 34ch;
+    margin-bottom: 20px;
+  }
+  .kj-site .kj-exact-hero .kj-hero-buttons { width: min(100%, 420px); }
+}
+@media (max-width: 420px) {
+  .kj-site .kj-navbar { width: calc(100% - 24px); gap: 6px; }
+  .kj-site .kj-header-actions { gap: 5px; }
+  .kj-site .kj-faithful-brand { min-width: 84px; width: 84px; }
+  .kj-site .kj-faithful-brand img { width: 84px; }
+  .kj-site .kj-search-row { gap: 10px; }
+}
