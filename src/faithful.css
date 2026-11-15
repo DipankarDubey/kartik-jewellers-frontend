@@ -344,34 +344,41 @@
   .kj-site .kj-exact-hero .kj-hero-buttons { gap: 6px; }
 }
 
-/* Use one uninterrupted photo behind the collection heading at every width. */
+/* Text and artwork share a banner but occupy separate grid columns. */
+.kj-site .kj-exact-banner {
+  background: linear-gradient(90deg, #422405, #784509);
+}
+.kj-site[data-metal="Silver"] .kj-exact-banner {
+  background: linear-gradient(90deg, #13263d, #233b55);
+}
+.kj-site .kj-exact-banner .kj-page-banner-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  align-items: center;
+  gap: clamp(10px, 2vw, 32px);
+  min-height: clamp(135px, 20vw, 310px);
+}
 .kj-site .kj-exact-banner .kj-banner-rings {
-  inset: 0;
+  position: relative;
+  inset: auto;
   width: 100%;
-  mask-image: none;
-  background: var(--banner-tone);
+  height: auto;
+  background: none;
+  mask-image: linear-gradient(90deg, transparent, #000 22%);
 }
 .kj-site .kj-exact-banner .kj-banner-rings img {
-  position: absolute;
-  right: 0;
-  width: 70%;
-  object-position: right center;
-  mask-image: linear-gradient(90deg, transparent, #000 24%);
+  position: static;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
 }
-.kj-site .kj-exact-banner .kj-banner-rings::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, #291302e8, #35200bba 30%, #35200b00 67%);
-}
-.kj-site[data-metal="Silver"] .kj-exact-banner .kj-banner-rings::after {
-  background: linear-gradient(90deg, #081628ed, #101f33c7 30%, #101f3300 67%);
-}
-.kj-site .kj-exact-banner .kj-page-banner-inner { min-height: clamp(135px, 20vw, 310px); }
+.kj-site .kj-exact-banner p { max-width: 34ch; }
 @media (max-width: 600px) {
-  .kj-site .kj-exact-banner .kj-banner-rings img { width: 68%; object-position: right center; }
+  .kj-site .kj-exact-banner .kj-page-banner-inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  }
   .kj-site .kj-exact-banner h1 { font-size: clamp(16px, 4.5vw, 24px); }
-  .kj-site .kj-exact-banner p { max-width: 43vw; font-size: 11px; }
+  .kj-site .kj-exact-banner p { max-width: 100%; font-size: 11px; }
   .kj-site .kj-exact-hero h1 { font-size: clamp(19px, 5vw, 29px); }
   .kj-site .kj-exact-hero .kj-hero-buttons { width: min(73vw, 340px); }
   .kj-site .kj-exact-hero .kj-hero-buttons .kj-btn {
