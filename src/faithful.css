@@ -353,10 +353,18 @@
 }
 .kj-site .kj-exact-banner .kj-page-banner-inner {
   display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-  align-items: center;
-  gap: clamp(10px, 2vw, 32px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: clamp(12px, 2.5vw, 36px);
   min-height: clamp(135px, 20vw, 310px);
+}
+.kj-site .kj-exact-banner .kj-page-banner-inner > :first-child {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  min-width: 0;
+  text-align: left;
 }
 .kj-site .kj-exact-banner .kj-banner-rings {
   position: relative;
@@ -367,16 +375,15 @@
   mask-image: linear-gradient(90deg, transparent, #000 22%);
 }
 .kj-site .kj-exact-banner .kj-banner-rings img {
-  position: static;
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: contain;
+  object-position: right center;
 }
-.kj-site .kj-exact-banner p { max-width: 34ch; }
+.kj-site .kj-exact-banner p { max-width: min(100%, 34ch); }
 @media (max-width: 600px) {
-  .kj-site .kj-exact-banner .kj-page-banner-inner {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-  }
   .kj-site .kj-exact-banner h1 { font-size: clamp(16px, 4.5vw, 24px); }
   .kj-site .kj-exact-banner p { max-width: 100%; font-size: 11px; }
   .kj-site .kj-exact-hero h1 { font-size: clamp(19px, 5vw, 29px); }
