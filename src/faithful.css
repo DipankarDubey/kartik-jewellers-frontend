@@ -344,27 +344,36 @@
   .kj-site .kj-exact-hero .kj-hero-buttons { gap: 6px; }
 }
 
-/* Text and artwork share a banner but occupy separate grid columns. */
+/* Compact collection masthead based on the Gold and Silver reference panels. */
 .kj-site .kj-exact-banner {
-  background: linear-gradient(90deg, #422405, #784509);
+  padding: 0;
+  background: linear-gradient(105deg, #754706, #4c2d08 55%, #623905);
 }
 .kj-site[data-metal="Silver"] .kj-exact-banner {
-  background: linear-gradient(90deg, #13263d, #233b55);
+  background: linear-gradient(105deg, #2e4660, #20334b 55%, #304963);
 }
 .kj-site .kj-exact-banner .kj-page-banner-inner {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: stretch;
-  gap: clamp(12px, 2.5vw, 36px);
-  min-height: clamp(135px, 20vw, 310px);
+  align-items: center;
+  gap: clamp(8px, 2vw, 28px);
+  min-height: clamp(102px, 16vw, 216px);
 }
 .kj-site .kj-exact-banner .kj-page-banner-inner > :first-child {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
   min-width: 0;
+  padding-block: 12px;
   text-align: left;
+}
+.kj-site .kj-exact-banner h1 {
+  margin: 0 0 .2em;
+  font-size: clamp(19px, 3.1vw, 43px);
+  line-height: 1.05;
+}
+.kj-site .kj-exact-banner p {
+  margin: 0;
+  max-width: min(100%, 28ch);
+  font-size: clamp(11px, 1.3vw, 17px);
+  line-height: 1.35;
 }
 .kj-site .kj-exact-banner .kj-banner-rings {
   position: relative;
@@ -372,20 +381,19 @@
   width: 100%;
   height: auto;
   background: none;
-  mask-image: linear-gradient(90deg, transparent, #000 22%);
+  mask-image: none;
 }
 .kj-site .kj-exact-banner .kj-banner-rings img {
-  position: absolute;
-  inset: 0;
+  position: static;
+  display: block;
   width: 100%;
-  height: 100%;
+  height: auto;
+  max-height: 216px;
   object-fit: contain;
   object-position: right center;
+  mask-image: radial-gradient(ellipse 68% 69% at 52% 50%, #000 58%, transparent 100%);
 }
-.kj-site .kj-exact-banner p { max-width: min(100%, 34ch); }
 @media (max-width: 600px) {
-  .kj-site .kj-exact-banner h1 { font-size: clamp(16px, 4.5vw, 24px); }
-  .kj-site .kj-exact-banner p { max-width: 100%; font-size: 11px; }
   .kj-site .kj-exact-hero h1 { font-size: clamp(19px, 5vw, 29px); }
   .kj-site .kj-exact-hero .kj-hero-buttons { width: min(73vw, 340px); }
   .kj-site .kj-exact-hero .kj-hero-buttons .kj-btn {
