@@ -412,3 +412,10 @@
   .kj-admin .sidebar .brand { padding: 5px 2px; }
   .kj-admin .sidebar .brand-official { height: 43px; }
 }
+
+/* Theme-specific studio photography for the homepage category links. */
+.kj-site .kj-exact-categories .kj-category-card > div { height: auto; aspect-ratio: 1; }
+.kj-site .kj-exact-categories .kj-category-card img,
+.kj-site[data-metal="Silver"] .kj-exact-categories .kj-category-card img { padding: 0; object-fit: cover; filter: none; }
+.kj-site .kj-about-photo img { display: block; height: auto; aspect-ratio: 3 / 2; object-fit: contain; }
+.kj-site .kj-about-photo { min-height: 0; background: #2c1b13; }
