@@ -349,8 +349,15 @@
   inset: 0;
   width: 100%;
   mask-image: none;
+  background: var(--banner-tone);
 }
-.kj-site .kj-exact-banner .kj-banner-rings img { object-position: center; }
+.kj-site .kj-exact-banner .kj-banner-rings img {
+  position: absolute;
+  right: 0;
+  width: 70%;
+  object-position: right center;
+  mask-image: linear-gradient(90deg, transparent, #000 24%);
+}
 .kj-site .kj-exact-banner .kj-banner-rings::after {
   content: "";
   position: absolute;
@@ -362,8 +369,24 @@
 }
 .kj-site .kj-exact-banner .kj-page-banner-inner { min-height: clamp(135px, 20vw, 310px); }
 @media (max-width: 600px) {
-  .kj-site .kj-exact-banner .kj-banner-rings img { object-position: 48% center; }
-  .kj-site .kj-exact-banner p { max-width: 48vw; }
+  .kj-site .kj-exact-banner .kj-banner-rings img { width: 68%; object-position: right center; }
+  .kj-site .kj-exact-banner h1 { font-size: clamp(16px, 4.5vw, 24px); }
+  .kj-site .kj-exact-banner p { max-width: 43vw; font-size: 11px; }
+  .kj-site .kj-exact-hero h1 { font-size: clamp(19px, 5vw, 29px); }
+  .kj-site .kj-exact-hero .kj-hero-buttons { width: min(73vw, 340px); }
+  .kj-site .kj-exact-hero .kj-hero-buttons .kj-btn {
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .kj-site .kj-exact-hero .kj-hero-buttons .kj-btn svg { display: none; }
+}
+@media (max-width: 410px) {
+  .kj-site .kj-exact-hero .kj-hero-buttons {
+    grid-template-columns: minmax(0, 1fr);
+    width: min(100%, 170px);
+  }
+  .kj-site .kj-exact-hero .kj-hero-buttons .kj-btn { padding-inline: 7px; }
+  .kj-site .kj-filter-mobile, .kj-site .kj-catalog-sort { font-size: 11px; }
 }
 
 /* A light brand tile preserves the gold logo against the navy admin sidebar. */
