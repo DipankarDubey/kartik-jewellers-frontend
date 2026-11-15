@@ -290,36 +290,6 @@
   .kj-site .kj-search-row { gap: 10px; }
 }
 
-/* Collection art fades into the banner instead of appearing inside a tile. */
-.kj-site .kj-exact-banner {
-  --banner-tone: #794707;
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  background: var(--banner-tone);
-}
-.kj-site[data-metal="Silver"] .kj-exact-banner { --banner-tone: #263c55; }
-.kj-site .kj-exact-banner .kj-page-banner-inner > :first-child { position: relative; z-index: 1; }
-.kj-site .kj-exact-banner .kj-banner-rings {
-  position: absolute;
-  inset: 0 0 0 auto;
-  width: 65%;
-  height: 100%;
-  border-radius: 0;
-  opacity: 1;
-  mix-blend-mode: normal;
-  pointer-events: none;
-  mask-image: linear-gradient(to right, transparent, #000 40%);
-}
-.kj-site .kj-exact-banner .kj-banner-rings img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-.kj-site .kj-exact-banner .kj-page-banner-inner { min-height: clamp(124px, 18vw, 240px); }
-.kj-site .kj-exact-banner p { max-width: min(37vw, 360px); }
 .kj-site .kj-exact-hero .kj-hero-buttons {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -338,60 +308,70 @@
   .kj-site .kj-exact-hero .kj-hero-buttons .kj-btn { font-size: clamp(10px, 1.55vw, 13px); }
 }
 @media (max-width: 600px) {
-  .kj-site .kj-exact-banner .kj-banner-rings { width: 61%; }
-  .kj-site .kj-exact-banner .kj-banner-rings img { object-position: 57% center; }
-  .kj-site .kj-exact-banner h1 { font-size: clamp(21px, 5vw, 30px); }
   .kj-site .kj-exact-hero .kj-hero-buttons { gap: 6px; }
 }
 
-/* Compact collection masthead based on the Gold and Silver reference panels. */
-.kj-site .kj-exact-banner {
-  padding: 0;
-  background: linear-gradient(105deg, #754706, #4c2d08 55%, #623905);
-}
+/* The photograph fills the banner, with copy in the empty left side. */
+.kj-site .kj-exact-banner,
 .kj-site[data-metal="Silver"] .kj-exact-banner {
-  background: linear-gradient(105deg, #2e4660, #20334b 55%, #304963);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 0;
+  background: #3d2309;
 }
+.kj-site[data-metal="Silver"] .kj-exact-banner { background: #182b43; }
 .kj-site .kj-exact-banner .kj-page-banner-inner {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
   align-items: center;
-  gap: clamp(8px, 2vw, 28px);
-  min-height: clamp(102px, 16vw, 216px);
+  justify-content: flex-start;
+  width: 100%;
+  min-height: max(112px, 20.5vw);
+  padding: 12px clamp(14px, 3.7vw, 72px);
 }
 .kj-site .kj-exact-banner .kj-page-banner-inner > :first-child {
+  position: relative;
+  z-index: 1;
+  width: 58%;
   min-width: 0;
-  padding-block: 12px;
   text-align: left;
 }
 .kj-site .kj-exact-banner h1 {
   margin: 0 0 .2em;
-  font-size: clamp(19px, 3.1vw, 43px);
-  line-height: 1.05;
+  font-size: clamp(18px, 3.1vw, 43px);
+  line-height: 1.08;
 }
 .kj-site .kj-exact-banner p {
   margin: 0;
-  max-width: min(100%, 28ch);
+  max-width: 28ch;
   font-size: clamp(11px, 1.3vw, 17px);
   line-height: 1.35;
 }
 .kj-site .kj-exact-banner .kj-banner-rings {
-  position: relative;
-  inset: auto;
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: auto;
-  background: none;
-  mask-image: none;
+  height: 100%;
+  border-radius: 0;
+  opacity: 1;
+  mix-blend-mode: normal;
+  pointer-events: none;
 }
 .kj-site .kj-exact-banner .kj-banner-rings img {
-  position: static;
   display: block;
   width: 100%;
-  height: auto;
-  max-height: 216px;
-  object-fit: contain;
-  object-position: right center;
-  mask-image: radial-gradient(ellipse 68% 69% at 52% 50%, #000 58%, transparent 100%);
+  height: 100%;
+  object-fit: cover;
+  object-position: right 45%;
+}
+.kj-site .kj-exact-banner .kj-banner-rings::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #140e07a8, #140e073d 46%, transparent 67%);
+}
+.kj-site[data-metal="Silver"] .kj-exact-banner .kj-banner-rings::after {
+  background: linear-gradient(90deg, #071221a8, #0712213d 46%, transparent 67%);
 }
 @media (max-width: 600px) {
   .kj-site .kj-exact-hero h1 { font-size: clamp(19px, 5vw, 29px); }
