@@ -13,6 +13,7 @@ await page.route(api+'/**',async route=>{
  const req=route.request();const url=new URL(req.url());const path=url.pathname.slice(4);const method=req.method();
  const ok=(body,status=200)=>route.fulfill({status,contentType:'application/json',body:JSON.stringify(body)});
  if(path==='/products' && method==='GET')return ok(products);
+ if(path==='/orders/admin/orders')return ok({orders:[],total:0,page:1});
  if(path==='/orders/availability')return ok({paytm:false});
  if(path==='/savings/login/options')return ok({google:true});
  if(path==='/store')return ok({name:'Karthik Jewellers',address:'Test location',email:'hello@example.test',phone:'0123456789',mapsUrl:'https://maps.google.com'});
@@ -66,7 +67,9 @@ try{
  await page.getByLabel('Admin username').fill('test-admin');
  await page.getByLabel('Password').fill('TestOnlyPassword123!');
  await page.getByRole('button',{name:/Sign in securely/i}).click();
- await page.getByText('ADMIN MANAGEMENT').waitFor();
+ await page.getByRole('link',{name:'Orders & Offers',exact:true}).click();
+ await page.getByRole('heading',{name:'Orders and offers',exact:true}).waitFor();
+ await page.getByText('No orders found.').waitFor();
  console.log('PASS: browser admin login (mock token)');
  await page.goto(base+'/#/admin/products');
  await page.getByRole('heading',{name:'Manage jewellery'}).waitFor();
