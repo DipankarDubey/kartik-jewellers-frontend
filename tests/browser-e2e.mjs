@@ -15,6 +15,15 @@ await page.route(api+'/**',async route=>{
  if(path==='/products' && method==='GET')return ok(products);
  if(path==='/orders/admin/orders')return ok({orders:[],total:0,page:1});
  if(path==='/orders/availability')return ok({paytm:false});
+ if(path==='/savings/register' && method==='POST'){
+   const body=req.postDataJSON();
+   assert.equal(body.password,'RegistrationTest123!');
+   return body.email==='existing@example.test' ? ok({verificationRequired:true}) : ok({token:'mock-customer-token'},201);
+ }
+ if(path==='/savings/password/request' && method==='POST'){
+   assert.equal(req.postDataJSON().password,undefined);
+   return ok({message:'Check your email for a verification code.'});
+ }
  if(path==='/store')return ok({name:'Karthik Jewellers',address:'Test location',email:'hello@example.test',phone:'0123456789',mapsUrl:'https://maps.google.com'});
  if(path==='/admin/login' && method==='POST'){const body=req.postDataJSON();return ok(body.username==='test-admin' && body.password==='TestOnlyPassword123!'?{token:'mock-admin-token'}:{error:'Incorrect login'},body.username==='test-admin' && body.password==='TestOnlyPassword123!'?200:401)}
  if(path==='/admin/stats')return ok({products:products.length,customers:0,subscribers:0});
@@ -51,6 +60,21 @@ try{
  await page.getByRole('link',{name:'Sign in to checkout'}).click();
  await page.getByRole('heading',{name:'Sign in with mobile number'}).waitFor();
  assert.match(page.url(), /next=cart/);
+ await page.getByRole('button',{name:'Create account',exact:true}).click();
+ await page.getByLabel('Name',{exact:true}).fill('Test Customer');
+ await page.getByLabel('Mobile number',{exact:true}).fill('9876543210');
+ await page.getByLabel('Email',{exact:true}).fill('existing@example.test');
+ await page.getByLabel('Password',{exact:true}).fill('RegistrationTest123!');
+ await page.getByRole('button',{name:'Create account',exact:true}).click();
+ await page.getByLabel('Email verification code',{exact:true}).waitFor();
+ assert.equal(await page.getByLabel('Password',{exact:true}).inputValue(),'RegistrationTest123!');
+ await page.getByRole('button',{name:'Edit contact details',exact:true}).click();
+ await page.getByLabel('Email',{exact:true}).fill('tester@example.test');
+ await page.getByRole('button',{name:'Create account',exact:true}).click();
+ await page.getByRole('heading',{name:'Your shopping bag'}).waitFor();
+ assert.equal(await page.evaluate(() => sessionStorage.getItem('kj_customer_session')),'mock-customer-token');
+ await page.evaluate(() => sessionStorage.removeItem('kj_customer_session'));
+ console.log('PASS: new customers choose a password and sign in without email verification');
  await page.getByRole('link',{name:'Shopping bag: 2 items'}).click();
  await page.getByRole('heading',{name:'Your shopping bag'}).waitFor();
  assert.equal(await page.getByRole('combobox',{name:'Quantity'}).inputValue(),'2');
