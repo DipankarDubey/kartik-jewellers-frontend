@@ -1,0 +1,49 @@
+.sv-page {
+  --sv-ink: var(--k-dark, #3d2d1c);
+  --sv-muted: var(--k-muted, #5d5245);
+  --sv-edge: var(--k-border, #dccba9);
+  --sv-wash: var(--k-lighter, #f8efdc);
+  --sv-accent: var(--k-accent, #81520f);
+  color: var(--sv-ink);
+  padding-block: clamp(24px, 5vw, 60px);
+}
+.sv-intro {padding: clamp(20px, 4vw, 46px); background:var(--sv-wash); border:1px solid var(--sv-edge); border-radius:15px; margin-bottom:24px}
+.sv-eyebrow {display:flex; align-items:center; gap:7px; color:var(--sv-ink); font-size:.76rem; font-weight:700; letter-spacing:.06em; overflow-wrap:anywhere}
+.sv-intro h1 {font:600 clamp(28px, 4.2vw, 54px)/1.08 Georgia,serif; margin:10px 0}
+.sv-intro p,.sv-card p {color:var(--sv-muted); line-height:1.55; margin:0; max-width:62ch}
+.sv-login {max-width:850px}
+.sv-panel {background:var(--k-paper,#fffdfa); border:1px solid var(--sv-edge); border-radius:13px; padding:clamp(16px,3vw,28px); min-width:0}
+.sv-login-form,.sv-form,.sv-card {display:grid; gap:14px}
+.sv-login-form {max-width:500px; margin-inline:auto}
+.sv-panel h2,.sv-panel h3 {margin:0; font-family:Georgia,serif; color:var(--sv-ink)}
+.sv-page label {display:grid; gap:6px; color:var(--sv-ink); font-weight:600; font-size:.875rem}
+.sv-page input,.sv-page textarea,.sv-page select {width:100%; min-width:0; border:1px solid var(--sv-edge); border-radius:7px; padding:10px 11px; min-height:42px; font:inherit; color:var(--sv-ink); background:white}
+.sv-page :is(input,textarea,select,button,a):focus-visible {outline:2px solid var(--sv-accent);outline-offset:3px}
+.sv-page button:disabled {opacity:.6;cursor:not-allowed}
+.sv-toolbar,.sv-actions {display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap}
+.sv-tabs {display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-block:0 12px}
+.sv-tabs a,.sv-tabs button {display:inline-flex; align-items:center; gap:6px; min-height:40px; border:1px solid var(--sv-edge); padding:8px 12px; border-radius:8px; background:transparent; color:var(--sv-ink); font:inherit;font-size:.875rem;font-weight:600; cursor:pointer}
+.sv-tabs [aria-current="page"] {background:var(--sv-wash); border-color:var(--sv-accent); font-weight:700}
+.sv-text-btn {font:inherit; color:var(--sv-ink); background:none; border:0; cursor:pointer; padding:6px; text-decoration:underline; text-underline-offset:3px}
+.sv-message,.sv-empty {padding:13px 16px; border:1px solid var(--sv-edge); border-radius:9px; background:var(--sv-wash); line-height:1.5}
+.sv-message.sv-error {color:#801f26; background:#fff3f4; border-color:#ebbbc0}
+.sv-grid {display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr)); gap:16px; margin-block:16px}
+.sv-card {align-content:start; overflow-wrap:anywhere}
+.sv-card .sv-price {font-size:1.55rem; color:var(--sv-ink); font-weight:700}
+.sv-price small {font-size:.85rem; font-weight:500}
+.sv-plan-icon {width:42px;height:42px;display:grid;place-items:center;border-radius:10px;background:var(--sv-wash);color:var(--sv-accent)}
+.sv-facts {display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:0; padding:12px 0; border-block:1px solid var(--sv-edge)}
+.sv-facts dt {font-size:.76rem; color:var(--sv-muted)}
+.sv-facts dd {margin:3px 0 0; font-weight:700; font-size:.875rem}
+.sv-progress progress {width:100%; height:13px; accent-color:var(--sv-accent)}
+.sv-badge {display:inline-block; justify-self:start; padding:5px 8px; border-radius:6px; background:#eef0f2; color:#2f3b47; font-size:.76rem; font-weight:700}
+.sv-badge.sv-paid {background:#e4f3e9;color:#195735}.sv-badge.sv-pending {background:#fff0cc;color:#6c4704}.sv-badge.sv-failed {background:#fbe8e8;color:#85292d}
+.sv-table-wrap {max-width:100%; overflow:auto; margin-block:12px; border:1px solid var(--sv-edge); border-radius:10px}
+.sv-table {width:100%; border-collapse:collapse; min-width:660px;text-align:left;background:var(--k-paper,#fffdfa)}
+.sv-table th,.sv-table td {padding:11px 12px;border-bottom:1px solid var(--sv-edge)}
+.sv-table th {background:var(--sv-wash);font-size:.82rem}.sv-table td {font-size:.88rem}
+.sv-table .sv-text-btn {display:block}.sv-form-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.sv-admin {padding-block:0}.sv-admin .sv-intro {padding:24px}.sv-admin .sv-intro h1 {font-size:clamp(26px,4vw,40px)}
+.sv-admin .sv-toolbar {margin-top:16px}.sv-admin .sv-offline {padding:12px;background:var(--sv-wash)}
+.sv-receipts {margin:0;padding-left:18px;font-size:.84rem}
+@media(max-width:480px){.sv-form-grid {grid-template-columns:1fr}.sv-tabs a,.sv-tabs button {padding:8px;font-size:.8rem}.sv-login-form {margin-top:12px}}
