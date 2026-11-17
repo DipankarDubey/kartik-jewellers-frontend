@@ -7,7 +7,7 @@ const products=[
  {_id:'0123456789abcdef01234561',name:'Royal Gold Necklace',metal:'Gold',category:'Necklaces',price:125000,active:true,featured:true,imageUrl:'https://res.cloudinary.com/qu6byvci/image/upload/v1794605450/royal-gold-necklace.webp'},
  {_id:'0123456789abcdef01234562',name:'Classic Diamond Ring',metal:'Gold',category:'Rings',price:95000,active:true,featured:false,imageUrl:'https://res.cloudinary.com/qu6byvci/image/upload/v1794605498/classic-diamond-ring.webp'}
 ];
-let sentUpload=false;let newProduct=null;let contactSent=false;
+let sentUpload=false;let newProduct=null;let contactSent=false;let verificationRequests=0;
 const api='https://kartik-jewellers-api.onrender.com/api';
 await page.route(api+'/**',async route=>{
  const req=route.request();const url=new URL(req.url());const path=url.pathname.slice(4);const method=req.method();
@@ -21,6 +21,7 @@ await page.route(api+'/**',async route=>{
    return body.email==='existing@example.test' ? ok({verificationRequired:true}) : ok({token:'mock-customer-token'},201);
  }
  if(path==='/savings/password/request' && method==='POST'){
+   verificationRequests++;
    assert.equal(req.postDataJSON().password,undefined);
    return ok({message:'Check your email for a verification code.'});
  }
@@ -66,6 +67,9 @@ try{
  await page.getByLabel('Email',{exact:true}).fill('existing@example.test');
  await page.getByLabel('Password',{exact:true}).fill('RegistrationTest123!');
  await page.getByRole('button',{name:'Create account',exact:true}).click();
+ await page.getByRole('button',{name:'Email me a verification code'}).waitFor();
+ assert.equal(verificationRequests,0);
+ await page.getByRole('button',{name:'Email me a verification code'}).click();
  await page.getByLabel('Email verification code',{exact:true}).waitFor();
  assert.equal(await page.getByLabel('Password',{exact:true}).inputValue(),'RegistrationTest123!');
  await page.getByRole('button',{name:'Edit contact details',exact:true}).click();
@@ -74,7 +78,8 @@ try{
  await page.getByRole('heading',{name:'Your shopping bag'}).waitFor();
  assert.equal(await page.evaluate(() => sessionStorage.getItem('kj_customer_session')),'mock-customer-token');
  await page.evaluate(() => sessionStorage.removeItem('kj_customer_session'));
- console.log('PASS: new customers choose a password and sign in without email verification');
+ assert.equal(verificationRequests,1);
+ console.log('PASS: new customers sign in without verification and older accounts only request a code when asked');
  await page.getByRole('link',{name:'Shopping bag: 2 items'}).click();
  await page.getByRole('heading',{name:'Your shopping bag'}).waitFor();
  assert.equal(await page.getByRole('combobox',{name:'Quantity'}).inputValue(),'2');
