@@ -64,7 +64,7 @@ export function CartPage({api, products, loading, cart, updateQuantity, clearCar
     let current = true;
     shopRequest(api, '/quote', json('POST', {items: cart})).then(data => {
       if (current) setQuote({revision: cartRevision, data});
-    }).catch(err => {if (current && err.status !== 401) setError(err.message);});
+    }).catch(err => {if (current) report(err);});
     return () => {current = false;};
   }, [api, cartRevision, signedIn]);
 
