@@ -27,3 +27,9 @@
 .kj-access-menu div a:is(:hover,:focus-visible) { background:var(--k-lighter,#f8efdc); }
 @media(max-width:730px) { .kj-cart-layout { grid-template-columns:1fr; } }
 @media(max-width:420px) { .kj-cart-line img { width:54px; height:54px; } .kj-cart-line { gap:8px; } .kj-access-menu div a { padding:8px; font-size:.85rem; } }
+@media(max-width:400px) {
+  .kj-site .kj-header .kj-navbar { gap:8px; }
+  .kj-site .kj-header .kj-faithful-brand { width:clamp(84px, 29vw, 116px); min-width:0; }
+  .kj-site .kj-header .kj-faithful-brand img { width:100%; }
+  .kj-site .kj-header .kj-header-actions { gap:6px; }
+}
