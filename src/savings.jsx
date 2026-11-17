@@ -1,7 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Link, Navigate, useNavigate, useSearchParams} from 'react-router-dom';
-import {ArrowRight, CalendarDays, Gem, History, LockKeyhole, Mail, Plus, Wallet} from 'lucide-react';
+import {ArrowRight, CalendarDays, Gem, History, LockKeyhole, Mail, Plus, UserRound, Wallet} from 'lucide-react';
 import './savings.css';
+
+const googleProofKey = 'kj_google_login_proof';
+const base64url = bytes => btoa(String.fromCharCode(...bytes)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 
 const tokenKey = 'kj_customer_session';
 const storedToken = () => {
@@ -55,7 +58,46 @@ export function CustomerLogin({api}) {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [googleAvailable, setGoogleAvailable] = useState(false);
+  const googleResult = params.get('google');
+  const ticket = params.get('ticket');
+
+  useEffect(() => {
+    customerRequest(api, '/login/options').then(data => setGoogleAvailable(data.google)).catch(() => {});
+  }, [api]);
+
+  useEffect(() => {
+    if (!googleResult || storedToken()) return;
+    const proof = sessionStorage.getItem(googleProofKey);
+    sessionStorage.removeItem(googleProofKey);
+    const showError = message => {
+      setError(message);
+      navigate('/account/login', {replace: true});
+    };
+    if (googleResult !== 'complete' || !ticket || !proof) {
+      showError(googleResult === 'email'
+        ? 'Use an email code to sign in with this address.'
+        : 'Google sign-in could not finish. Please try again.');
+      return;
+    }
+    setBusy(true);
+    customerRequest(api, '/login/google/complete', post({ticket, verifier: proof}))
+      .then(result => {
+        sessionStorage.setItem(tokenKey, result.token);
+        navigate('/account?tab=profile', {replace: true});
+      })
+      .catch(err => showError(err.message))
+      .finally(() => setBusy(false));
+  }, [api, googleResult, ticket, navigate]);
+
   if (storedToken()) return <Navigate to={target} replace/>;
+
+  async function startGoogle() {
+    const verifier = base64url(crypto.getRandomValues(new Uint8Array(32)));
+    const challenge = base64url(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier))));
+    sessionStorage.setItem(googleProofKey, verifier);
+    window.location.assign(api + '/savings/login/google/start?' + new URLSearchParams({challenge}));
+  }
 
   async function send() {
     const result = await customerRequest(api, '/login/request', post({email, name}));
@@ -85,6 +127,13 @@ export function CustomerLogin({api}) {
     }}>
       <Mail size={25} aria-hidden="true"/>
       <h2>{sent ? 'Enter your sign-in code' : 'Sign in with email'}</h2>
+      {!sent && googleAvailable && <>
+        <button type="button" className="kj-btn sv-google" disabled={busy} onClick={() => run(startGoogle)}>
+          <img src="/google-g.svg" alt="" width="18" height="18"/> Sign in with Google
+        </button>
+        <p className="sv-google-info">Google shares your name and verified email to create or access your account. <a href="/privacy.html">Privacy notice</a></p>
+        <div className="sv-divider"><span>or use an email code</span></div>
+      </>}
       {!sent && <label>Name <small>(optional)</small><input value={name} onChange={e => setName(e.target.value)} maxLength={120} autoComplete="name"/></label>}
       <label>Email<input type="email" value={email} onChange={e => setEmail(e.target.value)} readOnly={sent} required maxLength={254} autoComplete="email"/></label>
       {sent && <label>Six-digit code<input inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" maxLength={6} value={code} onChange={e => setCode(e.target.value)} required autoFocus/></label>}
@@ -124,6 +173,26 @@ function redirectToPaytm({url, fields}) {
   form.submit();
 }
 
+function ProfileForm({account, busy, onSave}) {
+  const [name, setName] = useState(account.name);
+  const [phone, setPhone] = useState(account.phone || '');
+  const [marketingConsent, setMarketingConsent] = useState(Boolean(account.marketingConsent));
+  return <form className="sv-panel sv-profile" onSubmit={event => {
+    event.preventDefault();
+    onSave({name, phone, marketingConsent});
+  }}>
+    <h2>Contact details</h2>
+    <label>Name<input required maxLength={120} autoComplete="name" value={name} onChange={event => setName(event.target.value)}/></label>
+    <label>Email <small>(verified)</small><input type="email" readOnly value={account.email}/></label>
+    <label>Phone <small>(optional)</small><input type="tel" maxLength={24} autoComplete="tel" value={phone} onChange={event => setPhone(event.target.value)}/></label>
+    <label className="sv-profile-consent"><input type="checkbox" checked={marketingConsent}
+      onChange={event => setMarketingConsent(event.target.checked)}/>
+      <span>Email me jewellery offers and promotions from Karthik Jewellers. I can unsubscribe at any time.</span>
+    </label>
+    <button className="kj-btn kj-btn-solid" disabled={busy}>Save profile</button>
+  </form>;
+}
+
 function TransactionList({data, checkPayment, busy}) {
   const enrollmentNames = Object.fromEntries(data.enrollments.map(e => [e._id, e.name]));
   if (!data.payments.length) return <p className="sv-empty">Your online and offline payments will appear here.</p>;
@@ -149,7 +218,7 @@ export function CustomerAccount({api}) {
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const [selected, setSelected] = useState(null);
-  const tab = ['plans', 'transactions'].includes(params.get('tab')) ? params.get('tab') : 'enrolled';
+  const tab = ['plans', 'transactions', 'profile'].includes(params.get('tab')) ? params.get('tab') : 'enrolled';
   const login = tab === 'transactions' ? '/account/login?tab=transactions' : '/account/login';
   const request = (path, opts) => customerRequest(api, path, opts);
   const signOut = () => {sessionStorage.removeItem(tokenKey); navigate(login, {replace: true});};
@@ -172,13 +241,18 @@ export function CustomerAccount({api}) {
     </PageIntro>
     <div className="sv-toolbar">
       <nav aria-label="Savings dashboard" className="sv-tabs">
-        {[['enrolled', 'My plans', Wallet], ['plans', 'Available plans', CalendarDays], ['transactions', 'Transactions', History]].map(([key, label, Icon]) =>
+        {[['enrolled', 'My plans', Wallet], ['plans', 'Available plans', CalendarDays], ['transactions', 'Transactions', History], ['profile', 'Profile', UserRound]].map(([key, label, Icon]) =>
           <button key={key} type="button" aria-current={tab === key ? 'page' : undefined} onClick={() => {setSelected(null);setParams({tab: key});}}><Icon size={16} aria-hidden="true"/>{label}</button>)}
       </nav>
       <button type="button" className="sv-text-btn" onClick={signOut}>Sign out</button>
     </div>
     <Message message={error} type="error"/><Message message={message}/>
     {!data && !error && <p role="status">Loading your account…</p>}
+    {data && tab === 'profile' && <ProfileForm account={data.account} busy={busy} onSave={profile => action(async () => {
+      await request('/account/profile', {...post(profile), method: 'PUT'});
+      await load();
+      setMessage('Profile saved.');
+    })}/>}
     {data && tab === 'plans' && <>
       <div className="sv-grid">{data.plans.map(p => {
         const enrolled = data.enrollments.some(e => e.plan === p._id);
