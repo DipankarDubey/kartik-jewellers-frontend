@@ -24,7 +24,7 @@ try{
  assert.ok((await page.locator('#root').innerText()).trim().length>120,'Customer storefront did not render meaningful content');
  assert.equal(errors.length,0,'Unexpected frontend JS runtime error');
  await page.getByRole('heading',{name:/Timeless/i}).first().waitFor({timeout:10000});
- await page.getByRole('button',{name:'Silver',exact:true}).first().click();
+ await page.getByRole('button',{name:'Explore Silver Collection',exact:true}).first().click();
  await page.getByRole('heading',{name:/Modern/i}).first().waitFor({timeout:10000});
  console.log('PASS: live Gold and Silver storefront rendering');
  await page.goto(base+'/#/collections',{waitUntil:'domcontentloaded',timeout:90000});
