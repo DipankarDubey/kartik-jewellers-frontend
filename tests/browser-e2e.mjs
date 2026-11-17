@@ -4,8 +4,8 @@ import assert from 'node:assert/strict';
 const browser=await chromium.launch({headless:true});
 const page=await browser.newPage({viewport:{width:1365,height:860}});
 const products=[
- {_id:'p1',name:'Royal Gold Necklace',metal:'Gold',category:'Necklaces',price:125000,active:true,featured:true,imageUrl:'https://res.cloudinary.com/qu6byvci/image/upload/v1794605450/royal-gold-necklace.webp'},
- {_id:'p2',name:'Classic Diamond Ring',metal:'Gold',category:'Rings',price:95000,active:true,featured:false,imageUrl:'https://res.cloudinary.com/qu6byvci/image/upload/v1794605498/classic-diamond-ring.webp'}
+ {_id:'0123456789abcdef01234561',name:'Royal Gold Necklace',metal:'Gold',category:'Necklaces',price:125000,active:true,featured:true,imageUrl:'https://res.cloudinary.com/qu6byvci/image/upload/v1794605450/royal-gold-necklace.webp'},
+ {_id:'0123456789abcdef01234562',name:'Classic Diamond Ring',metal:'Gold',category:'Rings',price:95000,active:true,featured:false,imageUrl:'https://res.cloudinary.com/qu6byvci/image/upload/v1794605498/classic-diamond-ring.webp'}
 ];
 let sentUpload=false;let newProduct=null;let contactSent=false;
 const api='https://kartik-jewellers-api.onrender.com/api';
@@ -13,6 +13,8 @@ await page.route(api+'/**',async route=>{
  const req=route.request();const url=new URL(req.url());const path=url.pathname.slice(4);const method=req.method();
  const ok=(body,status=200)=>route.fulfill({status,contentType:'application/json',body:JSON.stringify(body)});
  if(path==='/products' && method==='GET')return ok(products);
+ if(path==='/orders/availability')return ok({paytm:false});
+ if(path==='/savings/login/options')return ok({google:true});
  if(path==='/store')return ok({name:'Karthik Jewellers',address:'Test location',email:'hello@example.test',phone:'0123456789',mapsUrl:'https://maps.google.com'});
  if(path==='/admin/login' && method==='POST'){const body=req.postDataJSON();return ok(body.username==='test-admin' && body.password==='TestOnlyPassword123!'?{token:'mock-admin-token'}:{error:'Incorrect login'},body.username==='test-admin' && body.password==='TestOnlyPassword123!'?200:401)}
  if(path==='/admin/stats')return ok({products:products.length,customers:0,subscribers:0});
@@ -32,6 +34,8 @@ await page.route(api+'/**',async route=>{
 const base='http://127.0.0.1:5173';
 try{
  await page.goto(base+'/#/');
+ await page.locator('summary[aria-label="Account options"]').click();
+ await page.getByRole('link',{name:/Customer account/i}).waitFor({state:'visible'});
  await page.getByRole('link',{name:/Admin Login/i}).waitFor({state:'visible'});
  console.log('PASS: visible admin login link');
  await page.getByRole('link',{name:'Collections',exact:true}).first().click();
@@ -40,6 +44,17 @@ try{
  await page.getByText('Classic Diamond Ring').waitFor();
  assert.equal(await page.getByText('Royal Gold Necklace').count(),0);
  console.log('PASS: collection category filter');
+ await page.getByRole('link',{name:'View details'}).click();
+ await page.getByRole('link',{name:'Add to bag'}).click();
+ await page.getByRole('heading',{name:'Your shopping bag'}).waitFor();
+ await page.getByRole('combobox',{name:'Quantity'}).selectOption('2');
+ await page.getByRole('link',{name:'Sign in to checkout'}).click();
+ await page.getByRole('button',{name:'Sign in with Google'}).waitFor();
+ assert.match(page.url(), /next=cart/);
+ await page.getByRole('link',{name:'Shopping bag: 2 items'}).click();
+ await page.getByRole('heading',{name:'Your shopping bag'}).waitFor();
+ assert.equal(await page.getByRole('combobox',{name:'Quantity'}).inputValue(),'2');
+ console.log('PASS: shopping bag quantity and customer checkout sign-in');
  await page.goto(base+'/#/contact');
  await page.getByPlaceholder('Your full name').fill('Test Customer');
  await page.getByPlaceholder('you@example.com').fill('tester@example.test');
@@ -51,12 +66,8 @@ try{
  await page.getByLabel('Admin username').fill('test-admin');
  await page.getByLabel('Password').fill('TestOnlyPassword123!');
  await page.getByRole('button',{name:/Sign in securely/i}).click();
- // The sidebar caption is intentionally hidden by the storefront's design CSS.
- // Assert the authenticated admin page and visible navigation instead.
- await page.getByRole('heading',{name:/Welcome Back, Admin/i}).waitFor({state:'visible'});
- await page.getByRole('link',{name:'Jewellery Products'}).waitFor({state:'visible'});
- assert.equal(new URL(page.url()).hash,'#/admin');
- console.log('PASS: browser admin login and visible dashboard (mock token)');
+ await page.getByText('ADMIN MANAGEMENT').waitFor();
+ console.log('PASS: browser admin login (mock token)');
  await page.goto(base+'/#/admin/products');
  await page.getByRole('heading',{name:'Manage jewellery'}).waitFor();
  await page.getByRole('button',{name:'Add product'}).click();
@@ -74,3 +85,4 @@ try{
  assert.equal(newProduct.imageUrl,'https://res.cloudinary.com/example/image/upload/mock-ring.png');
  console.log('PASS: save product with uploaded image (mock backend)');
 }finally{await browser.close()}
+

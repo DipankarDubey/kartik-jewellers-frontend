@@ -7,11 +7,11 @@ const googleProofKey = 'kj_google_login_proof';
 const base64url = bytes => btoa(String.fromCharCode(...bytes)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 
 const tokenKey = 'kj_customer_session';
-const storedToken = () => {
+export const storedToken = () => {
   try { return sessionStorage.getItem(tokenKey); } catch { return null; }
 };
 const currency = new Intl.NumberFormat('en-IN', {style: 'currency', currency: 'INR', minimumFractionDigits: 0, maximumFractionDigits: 2});
-const money = paise => currency.format(paise / 100);
+export const money = paise => currency.format(paise / 100);
 const monthLabel = month => new Date(month + '-01T00:00:00Z').toLocaleDateString('en-IN', {
   month: 'short', year: 'numeric', timeZone: 'UTC'
 });
@@ -20,9 +20,9 @@ const toMonth = () => new Date(Date.now() + 330 * 60000).toISOString().slice(0, 
 const post = body => ({method: 'POST', body: JSON.stringify(body)});
 const statusLabels = {paid: 'Paid', pending: 'Pending', failed: 'Failed', unpaid: 'Unpaid'};
 
-async function customerRequest(api, path, options = {}) {
+export async function customerRequest(api, path, options = {}, base = '/savings') {
   const token = storedToken();
-  const response = await fetch(api + '/savings' + path, {
+  const response = await fetch(api + base + path, {
     ...options,
     headers: {'Content-Type': 'application/json', ...(token ? {Authorization: 'Bearer ' + token} : {})}
   });
@@ -35,11 +35,11 @@ async function customerRequest(api, path, options = {}) {
   return data;
 }
 
-function Message({message, type = 'status'}) {
+export function Message({message, type = 'status'}) {
   return message ? <p className={`sv-message sv-${type}`} role={type === 'error' ? 'alert' : 'status'}>{message}</p> : null;
 }
 
-function PageIntro({eyebrow, title, children}) {
+export function PageIntro({eyebrow, title, children}) {
   return <header className="sv-intro">
     <div className="sv-eyebrow"><Gem aria-hidden="true" size={15}/> {eyebrow}</div>
     <h1>{title}</h1>
@@ -50,7 +50,9 @@ function PageIntro({eyebrow, title, children}) {
 export function CustomerLogin({api}) {
   const navigate = useNavigate();
   const [params] = useSearchParams();
-  const target = params.get('tab') === 'transactions' ? '/account?tab=transactions' : '/account';
+  const next = params.get('next');
+  const returnTo = next === 'cart' ? '/cart' : next === 'orders' ? '/orders' : null;
+  const target = returnTo || (params.get('tab') === 'transactions' ? '/account?tab=transactions' : '/account');
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [code, setCode] = useState('');
@@ -68,7 +70,8 @@ export function CustomerLogin({api}) {
 
   useEffect(() => {
     if (!googleResult || storedToken()) return;
-    const proof = sessionStorage.getItem(googleProofKey);
+    const saved = sessionStorage.getItem(googleProofKey);
+    const [proof, destination] = saved?.split(':') || [];
     sessionStorage.removeItem(googleProofKey);
     const showError = message => {
       setError(message);
@@ -84,7 +87,7 @@ export function CustomerLogin({api}) {
     customerRequest(api, '/login/google/complete', post({ticket, verifier: proof}))
       .then(result => {
         sessionStorage.setItem(tokenKey, result.token);
-        navigate('/account?tab=profile', {replace: true});
+        navigate(destination === '/cart' || destination === '/orders' ? destination : '/account?tab=profile', {replace: true});
       })
       .catch(err => showError(err.message))
       .finally(() => setBusy(false));
@@ -95,7 +98,7 @@ export function CustomerLogin({api}) {
   async function startGoogle() {
     const verifier = base64url(crypto.getRandomValues(new Uint8Array(32)));
     const challenge = base64url(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier))));
-    sessionStorage.setItem(googleProofKey, verifier);
+    sessionStorage.setItem(googleProofKey, verifier + ':' + (returnTo || ''));
     window.location.assign(api + '/savings/login/google/start?' + new URLSearchParams({challenge}));
   }
 
@@ -157,7 +160,7 @@ function PlanFacts({plan}) {
   </>;
 }
 
-function redirectToPaytm({url, fields}) {
+export function redirectToPaytm({url, fields}) {
   const target = new URL(url);
   if (!['https://secure.paytmpayments.com', 'https://securestage.paytmpayments.com'].includes(target.origin) ||
       target.pathname !== '/theia/api/v1/showPaymentPage') throw Error('Invalid checkout destination');
@@ -244,7 +247,7 @@ export function CustomerAccount({api}) {
         {[['enrolled', 'My plans', Wallet], ['plans', 'Available plans', CalendarDays], ['transactions', 'Transactions', History], ['profile', 'Profile', UserRound]].map(([key, label, Icon]) =>
           <button key={key} type="button" aria-current={tab === key ? 'page' : undefined} onClick={() => {setSelected(null);setParams({tab: key});}}><Icon size={16} aria-hidden="true"/>{label}</button>)}
       </nav>
-      <button type="button" className="sv-text-btn" onClick={signOut}>Sign out</button>
+      <div className="sv-actions"><Link className="sv-text-btn" to="/orders">My orders</Link><button type="button" className="sv-text-btn" onClick={signOut}>Sign out</button></div>
     </div>
     <Message message={error} type="error"/><Message message={message}/>
     {!data && !error && <p role="status">Loading your account…</p>}
