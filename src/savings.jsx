@@ -58,6 +58,7 @@ export function CustomerLogin({api}) {
   const [newPassword, setNewPassword] = useState('');
   const [code, setCode] = useState('');
   const [sent, setSent] = useState(false);
+  const [verificationRequired, setVerificationRequired] = useState(false);
   const [replacePassword, setReplacePassword] = useState(false);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
@@ -68,6 +69,7 @@ export function CustomerLogin({api}) {
   function changeMode(nextMode) {
     setMode(nextMode);
     setSent(false);
+    setVerificationRequired(false);
     setReplacePassword(false);
     setPassword('');
     setNewPassword('');
@@ -90,13 +92,13 @@ export function CustomerLogin({api}) {
   }
 
   async function submit() {
-    if (mode === 'reset' && !sent) return sendCode();
+    if (!sent && (mode === 'reset' || verificationRequired)) return sendCode();
     const result = signingIn
       ? await customerRequest(api, '/login/password', post({mobile, password, ...(replacePassword ? {newPassword} : {})}))
       : sent
         ? await customerRequest(api, '/password/complete', post({mode, mobile, email, code, password}))
         : await customerRequest(api, '/register', post({name, mobile, email, password}));
-    if (result.verificationRequired) return sendCode();
+    if (result.verificationRequired) return setVerificationRequired(true);
     if (result.changeRequired) {
       setReplacePassword(true);
       setMessage('Create a permanent password to finish signing in.');
@@ -117,7 +119,7 @@ export function CustomerLogin({api}) {
       {mode === 'register' && !sent && <label>Name<input required value={name} onChange={e => setName(e.target.value)} maxLength={120} autoComplete="name"/></label>}
       <label>Mobile number<input type="tel" inputMode="tel" autoComplete={signingIn ? 'username' : 'tel'} value={mobile}
         onChange={e => setMobile(e.target.value)} readOnly={sent || replacePassword} required maxLength={30} placeholder="10-digit Indian mobile number"/></label>
-      {!signingIn && <label>Email<input type="email" autoComplete="email" value={email} onChange={e => setEmail(e.target.value)} readOnly={sent} required maxLength={254}/></label>}
+      {!signingIn && <label>Email<input type="email" autoComplete="email" value={email} onChange={e => {setEmail(e.target.value);setVerificationRequired(false);setError('');}} readOnly={sent} required maxLength={254}/></label>}
       {(signingIn || mode === 'register' || sent) && <label>{replacePassword ? 'Temporary password' : 'Password'}
         <input type="password" required autoComplete={signingIn ? 'current-password' : 'new-password'} minLength={signingIn ? undefined : 12}
           maxLength={72} readOnly={replacePassword} value={password} onChange={e => setPassword(e.target.value)}/>
@@ -126,12 +128,13 @@ export function CustomerLogin({api}) {
         value={newPassword} onChange={e => setNewPassword(e.target.value)} required/></label>}
       {(mode === 'register' || sent || replacePassword) && <small>Use at least 12 characters.</small>}
       {sent && <label>Email verification code<input inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" maxLength={6} value={code} onChange={e => setCode(e.target.value)} required/></label>}
+      {verificationRequired && !sent && <Message message="This email already has a customer account. Request a code to keep that account, or use a different email to create a separate account."/>}
       <button className="kj-btn kj-btn-solid" disabled={busy}>{busy ? 'Please wait…' : replacePassword ? 'Set password and sign in' :
         signingIn ? 'Sign in' : sent ? mode === 'register' ? 'Verify email and create account' : 'Save password and sign in' :
-          mode === 'register' ? 'Create account' : 'Email me a verification code'}<ArrowRight aria-hidden="true" size={17}/></button>
+          mode === 'register' && !verificationRequired ? 'Create account' : 'Email me a verification code'}<ArrowRight aria-hidden="true" size={17}/></button>
       {sent && <div className="sv-actions">
         <button type="button" className="sv-text-btn" disabled={busy} onClick={() => run(sendCode)}>Resend code</button>
-        <button type="button" className="sv-text-btn" disabled={busy} onClick={() => {setSent(false);setCode('');setError('');setMessage('');}}>Edit contact details</button>
+        <button type="button" className="sv-text-btn" disabled={busy} onClick={() => {setSent(false);setVerificationRequired(false);setCode('');setError('');setMessage('');}}>Edit contact details</button>
       </div>}
       <div className="sv-actions">
         {signingIn ? <>
