@@ -44,7 +44,7 @@ try{
  await page.getByText('Classic Diamond Ring').waitFor();
  assert.equal(await page.getByText('Royal Gold Necklace').count(),0);
  console.log('PASS: collection category filter');
- await page.getByRole('link',{name:'View details'}).click();
+ await page.getByRole('heading',{name:'Classic Diamond Ring'}).click();
  await page.getByRole('link',{name:'Add to bag'}).click();
  await page.getByRole('heading',{name:'Your shopping bag'}).waitFor();
  await page.getByRole('combobox',{name:'Quantity'}).selectOption('2');
