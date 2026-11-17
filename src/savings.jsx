@@ -1,10 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Link, Navigate, useNavigate, useSearchParams} from 'react-router-dom';
-import {ArrowRight, CalendarDays, Gem, History, LockKeyhole, Mail, Plus, UserRound, Wallet} from 'lucide-react';
+import {ArrowRight, CalendarDays, Gem, History, LockKeyhole, Plus, UserRound, Wallet} from 'lucide-react';
 import './savings.css';
-
-const googleProofKey = 'kj_google_login_proof';
-const base64url = bytes => btoa(String.fromCharCode(...bytes)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 
 const tokenKey = 'kj_customer_session';
 export const storedToken = () => {
@@ -51,100 +48,93 @@ export function CustomerLogin({api}) {
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const next = params.get('next');
-  const returnTo = next === 'cart' ? '/cart' : next === 'orders' ? '/orders' : null;
-  const target = returnTo || (params.get('tab') === 'transactions' ? '/account?tab=transactions' : '/account');
-  const [email, setEmail] = useState('');
+  const target = next === 'cart' ? '/cart' : next === 'orders' ? '/orders' :
+    params.get('tab') === 'transactions' ? '/account?tab=transactions' : '/account';
+  const [mode, setMode] = useState(params.get('mode') === 'reset' ? 'reset' : 'login');
+  const [mobile, setMobile] = useState('');
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [code, setCode] = useState('');
   const [sent, setSent] = useState(false);
+  const [replacePassword, setReplacePassword] = useState(false);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-  const [googleAvailable, setGoogleAvailable] = useState(false);
-  const googleResult = params.get('google');
-  const ticket = params.get('ticket');
-
-  useEffect(() => {
-    customerRequest(api, '/login/options').then(data => setGoogleAvailable(data.google)).catch(() => {});
-  }, [api]);
-
-  useEffect(() => {
-    if (!googleResult || storedToken()) return;
-    const saved = sessionStorage.getItem(googleProofKey);
-    const [proof, destination] = saved?.split(':') || [];
-    sessionStorage.removeItem(googleProofKey);
-    const showError = message => {
-      setError(message);
-      navigate('/account/login', {replace: true});
-    };
-    if (googleResult !== 'complete' || !ticket || !proof) {
-      showError(googleResult === 'email'
-        ? 'Use an email code to sign in with this address.'
-        : 'Google sign-in could not finish. Please try again.');
-      return;
-    }
-    setBusy(true);
-    customerRequest(api, '/login/google/complete', post({ticket, verifier: proof}))
-      .then(result => {
-        sessionStorage.setItem(tokenKey, result.token);
-        navigate(destination === '/cart' || destination === '/orders' ? destination : '/account?tab=profile', {replace: true});
-      })
-      .catch(err => showError(err.message))
-      .finally(() => setBusy(false));
-  }, [api, googleResult, ticket, navigate]);
-
+  const signingIn = mode === 'login';
   if (storedToken()) return <Navigate to={target} replace/>;
 
-  async function startGoogle() {
-    const verifier = base64url(crypto.getRandomValues(new Uint8Array(32)));
-    const challenge = base64url(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier))));
-    sessionStorage.setItem(googleProofKey, verifier + ':' + (returnTo || ''));
-    window.location.assign(api + '/savings/login/google/start?' + new URLSearchParams({challenge}));
+  function changeMode(nextMode) {
+    setMode(nextMode);
+    setSent(false);
+    setReplacePassword(false);
+    setPassword('');
+    setNewPassword('');
+    setCode('');
+    setError('');
+    setMessage('');
   }
 
-  async function send() {
-    const result = await customerRequest(api, '/login/request', post({email, name}));
+  async function run(action) {
+    setBusy(true); setError(''); setMessage('');
+    try {await action();} catch (err) {setError(err.message);} finally {setBusy(false);}
+  }
+
+  async function sendCode() {
+    const result = await customerRequest(api, '/password/request', post({mode, mobile, email, name}));
     setSent(true);
     setMessage(result.message);
   }
 
-  async function run(action) {
-    setBusy(true);
-    setError('');
-    setMessage('');
-    try { await action(); } catch (err) { setError(err.message); } finally { setBusy(false); }
+  async function submit() {
+    if (!signingIn && !sent) return sendCode();
+    const result = signingIn
+      ? await customerRequest(api, '/login/password', post({mobile, password, ...(replacePassword ? {newPassword} : {})}))
+      : await customerRequest(api, '/password/complete', post({mode, mobile, email, code, password}));
+    if (result.changeRequired) {
+      setReplacePassword(true);
+      setMessage('Create a permanent password to finish signing in.');
+      return;
+    }
+    sessionStorage.setItem(tokenKey, result.token);
+    navigate(target, {replace: true});
   }
 
   return <section className="kj-container sv-page sv-login">
-    <PageIntro eyebrow="Karthik Jewellers savings" title="Make something beautiful possible">
-      Choose a jewellery plan, pay one installment at a time, and track your progress.
+    <PageIntro eyebrow="Karthik Jewellers" title="Your customer account">
+      Sign in to manage your jewellery orders and savings plans.
     </PageIntro>
-    <form className="sv-panel sv-login-form" onSubmit={event => {
-      event.preventDefault();
-      run(async () => {
-        if (!sent) return send();
-        const result = await customerRequest(api, '/login/verify', post({email, code}));
-        sessionStorage.setItem(tokenKey, result.token);
-        navigate(target, {replace: true});
-      });
-    }}>
-      <Mail size={25} aria-hidden="true"/>
-      <h2>{sent ? 'Enter your sign-in code' : 'Sign in with email'}</h2>
-      {!sent && googleAvailable && <>
-        <button type="button" className="kj-btn sv-google" disabled={busy} onClick={() => run(startGoogle)}>
-          <img src="/google-g.svg" alt="" width="18" height="18"/> Sign in with Google
-        </button>
-        <p className="sv-google-info">Google shares your name and verified email to create or access your account. <a href="/privacy.html">Privacy notice</a></p>
-        <div className="sv-divider"><span>or use an email code</span></div>
-      </>}
-      {!sent && <label>Name <small>(optional)</small><input value={name} onChange={e => setName(e.target.value)} maxLength={120} autoComplete="name"/></label>}
-      <label>Email<input type="email" value={email} onChange={e => setEmail(e.target.value)} readOnly={sent} required maxLength={254} autoComplete="email"/></label>
-      {sent && <label>Six-digit code<input inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" maxLength={6} value={code} onChange={e => setCode(e.target.value)} required autoFocus/></label>}
-      <button className="kj-btn kj-btn-solid" disabled={busy}>{busy ? 'Please wait…' : sent ? 'Verify and sign in' : 'Email me a code'}<ArrowRight aria-hidden="true" size={17}/></button>
+    <form className="sv-panel sv-login-form" onSubmit={event => {event.preventDefault(); run(submit);}}>
+      <LockKeyhole size={25} aria-hidden="true"/>
+      <h2>{replacePassword ? 'Replace your temporary password' : signingIn ? 'Sign in with mobile number' :
+        mode === 'register' ? 'Create a customer account' : 'Reset password'}</h2>
+      {mode === 'register' && !sent && <label>Name<input required value={name} onChange={e => setName(e.target.value)} maxLength={120} autoComplete="name"/></label>}
+      <label>Mobile number<input type="tel" inputMode="tel" autoComplete={signingIn ? 'username' : 'tel'} value={mobile}
+        onChange={e => setMobile(e.target.value)} readOnly={sent || replacePassword} required maxLength={30} placeholder="10-digit Indian mobile number"/></label>
+      {!signingIn && <label>Email<input type="email" autoComplete="email" value={email} onChange={e => setEmail(e.target.value)} readOnly={sent} required maxLength={254}/></label>}
+      {sent && <label>Email verification code<input inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" maxLength={6} value={code} onChange={e => setCode(e.target.value)} required/></label>}
+      {(signingIn || sent) && <label>{replacePassword ? 'Temporary password' : 'Password'}
+        <input type="password" required autoComplete={signingIn ? 'current-password' : 'new-password'} minLength={signingIn ? undefined : 12}
+          maxLength={72} readOnly={replacePassword} value={password} onChange={e => setPassword(e.target.value)}/>
+      </label>}
+      {replacePassword && <label>New password<input type="password" minLength={12} maxLength={72} autoComplete="new-password"
+        value={newPassword} onChange={e => setNewPassword(e.target.value)} required/></label>}
+      {(sent || replacePassword) && <small>Use at least 12 characters.</small>}
+      <button className="kj-btn kj-btn-solid" disabled={busy}>{busy ? 'Please wait…' : replacePassword ? 'Set password and sign in' :
+        signingIn ? 'Sign in' : sent ? 'Save password and sign in' : 'Email me a verification code'}<ArrowRight aria-hidden="true" size={17}/></button>
       {sent && <div className="sv-actions">
-        <button type="button" className="sv-text-btn" onClick={() => run(send)} disabled={busy}>Resend code</button>
-        <button type="button" className="sv-text-btn" onClick={() => {setSent(false);setCode('');setMessage('');setError('');}} disabled={busy}>Change email</button>
+        <button type="button" className="sv-text-btn" disabled={busy} onClick={() => run(sendCode)}>Resend code</button>
+        <button type="button" className="sv-text-btn" disabled={busy} onClick={() => {setSent(false);setCode('');setError('');setMessage('');}}>Edit contact details</button>
       </div>}
+      <div className="sv-actions">
+        {signingIn ? <>
+          <button type="button" className="sv-text-btn" disabled={busy} onClick={() => changeMode('register')}>Create account</button>
+          <button type="button" className="sv-text-btn" disabled={busy} onClick={() => changeMode('reset')}>Reset password</button>
+        </> : <button type="button" className="sv-text-btn" disabled={busy} onClick={() => changeMode('login')}>Back to sign in</button>}
+      </div>
+      {signingIn && !replacePassword && <p className="sv-login-hint">Previously used email or Google sign-in? Choose <strong>Create account</strong> and verify the same email to keep your existing orders and plans.</p>}
+      <a className="sv-login-hint" href="/privacy.html">Privacy notice</a>
       <Message message={message}/><Message message={error} type="error"/>
     </form>
   </section>;
@@ -178,16 +168,15 @@ export function redirectToPaytm({url, fields}) {
 
 function ProfileForm({account, busy, onSave}) {
   const [name, setName] = useState(account.name);
-  const [phone, setPhone] = useState(account.phone || '');
   const [marketingConsent, setMarketingConsent] = useState(Boolean(account.marketingConsent));
   return <form className="sv-panel sv-profile" onSubmit={event => {
     event.preventDefault();
-    onSave({name, phone, marketingConsent});
+    onSave({name, marketingConsent});
   }}>
     <h2>Contact details</h2>
     <label>Name<input required maxLength={120} autoComplete="name" value={name} onChange={event => setName(event.target.value)}/></label>
     <label>Email <small>(verified)</small><input type="email" readOnly value={account.email}/></label>
-    <label>Phone <small>(optional)</small><input type="tel" maxLength={24} autoComplete="tel" value={phone} onChange={event => setPhone(event.target.value)}/></label>
+    <label>Mobile number <small>(username)</small><input type="tel" readOnly value={account.phone || ''}/></label>
     <label className="sv-profile-consent"><input type="checkbox" checked={marketingConsent}
       onChange={event => setMarketingConsent(event.target.checked)}/>
       <span>Email me jewellery offers and promotions from Karthik Jewellers. I can unsubscribe at any time.</span>

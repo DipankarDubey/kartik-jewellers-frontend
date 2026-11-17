@@ -15,7 +15,6 @@ await page.route(api+'/**',async route=>{
  if(path==='/products' && method==='GET')return ok(products);
  if(path==='/orders/admin/orders')return ok({orders:[],total:0,page:1});
  if(path==='/orders/availability')return ok({paytm:false});
- if(path==='/savings/login/options')return ok({google:true});
  if(path==='/store')return ok({name:'Karthik Jewellers',address:'Test location',email:'hello@example.test',phone:'0123456789',mapsUrl:'https://maps.google.com'});
  if(path==='/admin/login' && method==='POST'){const body=req.postDataJSON();return ok(body.username==='test-admin' && body.password==='TestOnlyPassword123!'?{token:'mock-admin-token'}:{error:'Incorrect login'},body.username==='test-admin' && body.password==='TestOnlyPassword123!'?200:401)}
  if(path==='/admin/stats')return ok({products:products.length,customers:0,subscribers:0});
@@ -50,7 +49,7 @@ try{
  await page.getByRole('heading',{name:'Your shopping bag'}).waitFor();
  await page.getByRole('combobox',{name:'Quantity'}).selectOption('2');
  await page.getByRole('link',{name:'Sign in to checkout'}).click();
- await page.getByRole('button',{name:'Sign in with Google'}).waitFor();
+ await page.getByRole('heading',{name:'Sign in with mobile number'}).waitFor();
  assert.match(page.url(), /next=cart/);
  await page.getByRole('link',{name:'Shopping bag: 2 items'}).click();
  await page.getByRole('heading',{name:'Your shopping bag'}).waitFor();
