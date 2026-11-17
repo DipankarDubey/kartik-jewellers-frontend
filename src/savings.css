@@ -48,19 +48,8 @@
 .sv-receipts {margin:0;padding-left:18px;font-size:.84rem}
 @media(max-width:480px){.sv-form-grid {grid-template-columns:1fr}.sv-tabs a,.sv-tabs button {padding:8px;font-size:.8rem}.sv-login-form {margin-top:12px}}
 
-.sv-login .sv-google {
-  justify-content: center;
-  gap: 12px;
-  background: #fff;
-  border: 1px solid #747775;
-  color: #1f1f1f;
-  font-weight: 600;
-}
-.sv-login .sv-google:hover { background: #f3f6fc; color: #1f1f1f; }
-.sv-google-info { font-size: .85rem; line-height: 1.45; margin: 0; }
-.sv-google-info a { text-decoration: underline; text-underline-offset: .14em; }
-.sv-divider { display: flex; align-items: center; gap: .65rem; font-size: .82rem; }
-.sv-divider::before, .sv-divider::after { content: ''; flex: 1; border-top: 1px solid currentColor; opacity: .2; }
+.sv-login-hint { font-size:.85rem; line-height:1.5; margin:0; }
+.sv-login-form a { text-decoration:underline; text-underline-offset:.14em; }
 .sv-profile { max-width: 36rem; display: grid; gap: 1rem; }
 .sv-profile .sv-profile-consent { display: flex; align-items: flex-start; gap: .65rem; font-weight: 400; }
 .sv-profile .sv-profile-consent input { width: 1rem; min-height: 0; margin-top: .2rem; flex: 0 0 auto; }
