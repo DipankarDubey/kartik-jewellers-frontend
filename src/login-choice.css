@@ -1,0 +1,35 @@
+.kj-login-choice {
+  --role-color: #67451c;
+  --role-line: #d7c7ac;
+  display: grid;
+  place-items: center;
+  padding: clamp(2rem, 7vw, 6rem) 1rem;
+  background: #faf6ee;
+}
+[data-metal="Silver"] .kj-login-choice {
+  --role-color: #293f59;
+  --role-line: #b8c6d5;
+  background: #f0f4f8;
+}
+.kj-login-card {
+  width: min(100%, 36rem);
+  overflow: hidden;
+  background: white;
+  border: 1px solid var(--role-line);
+  border-radius: 1rem;
+  box-shadow: 0 12px 36px #30281912;
+}
+.kj-login-art {display: block; width: 100%; aspect-ratio: 4 / 1; object-fit: cover; object-position: right center;}
+.kj-login-content {padding: clamp(1.4rem, 4vw, 2.6rem);}
+.kj-login-content h1 {margin: 0; font: normal clamp(2rem, 5vw, 3rem)/1.1 Georgia, serif; color: var(--role-color);}
+.kj-login-content p {margin: .7rem 0 1.6rem; color: #505050;}
+.kj-login-actions {display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr)); gap: .75rem;}
+.kj-login-role {
+  display: flex; align-items: center; gap: .55rem;
+  padding: 1rem; border: 1px solid var(--role-line); border-radius: .55rem;
+  font-weight: 600; text-decoration: none; color: var(--role-color);
+}
+.kj-login-role:first-child {background: var(--role-color); border-color: var(--role-color); color: white;}
+.kj-login-role svg:last-child {margin-left: auto;}
+.kj-login-role:hover {box-shadow: 0 2px 8px #30281922; border-color: var(--role-color);}
+.kj-login-role:focus-visible {outline: 3px solid var(--role-color); outline-offset: 3px;}
