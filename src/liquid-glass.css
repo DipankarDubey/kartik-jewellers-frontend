@@ -263,6 +263,25 @@ html[data-metal="silver"] .kj-glass-hero :focus-visible {
   padding: 8px var(--store-gutter);
   border-radius: 0;
 }
+.kj-site .kj-page .kj-filter-panel {
+  padding: 16px;
+}
+.kj-site .kj-filter-options {
+  gap: 3px;
+}
+.kj-site .kj-filter-options label {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+  min-height: 30px;
+  color: var(--glass-ink);
+}
+.kj-site .kj-filter-options input[type="radio"] {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+}
 .kj-ring-banner {
   position: relative;
   isolation: isolate;
@@ -270,7 +289,7 @@ html[data-metal="silver"] .kj-glass-hero :focus-visible {
   align-items: center;
   --ring-height: max(166px, 15.625vw);
   min-height: var(--ring-height);
-  padding: 20px clamp(16px, 6vw, 110px);
+  padding: 12px clamp(16px, 6vw, 110px);
   overflow: hidden;
   background: #26090d;
   color: #fff;
@@ -291,12 +310,13 @@ html[data-metal="silver"] .kj-glass-hero :focus-visible {
 .kj-ring-banner-copy h1 {
   color: inherit;
   margin: 0 0 .3em;
-  font: 600 clamp(24px, 4vw, 64px)/1.08 Georgia, serif;
+  font: 600 clamp(22px, 3vw, 58px)/1.08 Georgia, serif;
 }
 .kj-ring-banner-copy p {
   max-width: 30ch;
   margin: 0;
   font-size: clamp(.75rem, 1.2vw, 1.125rem);
+  line-height: 1.4;
 }
 .kj-site .kj-page .kj-glass-story {
   display: grid;
