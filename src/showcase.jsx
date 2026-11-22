@@ -1,9 +1,10 @@
-import React,{useEffect,useState,useMemo,useRef} from 'react';
+import React,{useEffect,useState,useMemo} from 'react';
 import {Link,NavLink,useLocation,useParams} from 'react-router-dom';
 import {ArrowRight,ArrowLeft,Heart,Search,Menu,X,MapPin,Phone,Mail,Instagram,ShieldCheck,Gift,Truck,Gem,Star,SlidersHorizontal,CheckCircle2,Send,ExternalLink,Clock,Scale,Sparkles,UserRound,ShoppingBag,Plus,Minus} from 'lucide-react';
 import './showcase.css';
 import './reference.css';
 import './faithful.css';
+import './login-choice.css';
 
 const money=value=>'₹'+Number(value||0).toLocaleString('en-IN');
 const categories=[
@@ -25,19 +26,20 @@ const mapsUrl=store=>store?.mapsUrl||'https://www.google.com/maps/search/?api=1&
 function Logo({store,small=false}){return <Link to="/" className={'kj-logo kj-faithful-brand'+(small?' kj-logo-small':'')} aria-label="Karthik Jewellers homepage"><img src='/images/karthik-mark.webp' alt="Karthik Jewellers — Timeless Elegance"/></Link>}
 function ThemePicker({metal,onMetalChange}){return <div className="kj-metal-picker" aria-label="Choose jewellery metal"><button type="button" className={metal==='Gold'?'active gold':''} onClick={()=>onMetalChange('Gold')} aria-pressed={metal==='Gold'}>Gold</button><button type="button" className={metal==='Silver'?'active silver':''} onClick={()=>onMetalChange('Silver')} aria-pressed={metal==='Silver'}>Silver</button></div>}
 function FeatureStrip({metal}){const items=[{icon:Gem,heading:metal==='Gold'?'BIS Hallmarked':'925 Sterling Silver',desc:'Purity & confidence'},{icon:ShieldCheck,heading:'Trusted Since Years',desc:'A legacy of trust'},{icon:Gift,heading:'Exquisite Designs',desc:'Traditional & modern'},{icon:Truck,heading:'Personalised Service',desc:'Visit our store'}];return <div className="kj-featurestrip">{items.map(item=><div key={item.heading}><item.icon size={22}/><span><strong>{item.heading}</strong><small>{item.desc}</small></span></div>)}</div>}
-function AccountMenu({path}) {
- const menu = useRef(null);
- const toggle = useRef(null);
- useEffect(() => {if (menu.current) menu.current.open = false;}, [path]);
- return <details ref={menu} className="kj-access-menu" onBlur={event => {
-   if (!event.currentTarget.contains(event.relatedTarget)) event.currentTarget.open = false;
- }} onKeyDown={event => {
-   if (event.key === 'Escape') {menu.current.open = false;toggle.current.focus();}
- }}>
-   <summary ref={toggle} className="kj-icon-link" aria-label="Account options" title="Account options"><UserRound size={20} aria-hidden="true"/></summary>
-   <div><Link to="/account" onClick={() => {menu.current.open = false;}}>Customer account</Link>
-     <Link to="/admin/login" onClick={() => {menu.current.open = false;}}>Admin login</Link></div>
- </details>;
+export function SignInPage({metal}) {
+ return <section className="kj-login-choice" aria-labelledby="login-title">
+   <div className="kj-login-card">
+     <img className="kj-login-art" alt="" src={'/images/collection-'+metal.toLowerCase()+'-right.webp'}/>
+     <div className="kj-login-content">
+       <h1 id="login-title">Sign in</h1>
+       <p>Choose how you’d like to continue.</p>
+       <div className="kj-login-actions">
+         <Link className="kj-login-role" to="/account"><UserRound aria-hidden="true"/>Customer<ArrowRight size={17} aria-hidden="true"/></Link>
+         <Link className="kj-login-role" to="/admin/login"><ShieldCheck aria-hidden="true"/>Admin<ArrowRight size={17} aria-hidden="true"/></Link>
+       </div>
+     </div>
+   </div>
+ </section>;
 }
 
 export function StorefrontShell({children,metal,onMetalChange,store,wishlistCount=0,cartCount=0}){
@@ -46,7 +48,7 @@ export function StorefrontShell({children,metal,onMetalChange,store,wishlistCoun
  useEffect(()=>setMenuOpen(false),[location.pathname]);
  return <div className="kj-site" data-metal={metal}>
   <div className="kj-announcement"><span>✦ &nbsp; Exquisite jewellery for every celebration</span><span className="kj-announcement-links"><span>Free consultation</span><i/> <span>Timeless Elegance</span><i/> <Link to="/location">Visit our showroom</Link></span></div>
-  <header className="kj-header"><div className="kj-container kj-navbar"><Logo store={store}/><nav className={menuOpen?'kj-nav kj-nav-open':'kj-nav'} aria-label="Customer navigation"><NavLink to="/" end>Home</NavLink><NavLink to="/collections">Collections</NavLink><NavLink to="/about">About Us</NavLink><NavLink to="/contact">Contact Us</NavLink></nav><div className="kj-header-actions"><Link className="kj-icon-link kj-search-nav" to="/collections" aria-label="Browse and search jewellery"><Search size={19}/></Link><Link className="kj-icon-link kj-wishnav" to="/wishlist" aria-label={'Wishlist: '+wishlistCount+' saved pieces'}><Heart size={19}/>{wishlistCount>0&&<span className="kj-bubble">{wishlistCount}</span>}</Link><Link className="kj-icon-link" to="/cart" aria-label={'Shopping bag: '+cartCount+' items'}><ShoppingBag size={19}/>{cartCount>0&&<span className="kj-bubble">{cartCount}</span>}</Link><AccountMenu path={location.pathname}/><ThemePicker metal={metal} onMetalChange={onMetalChange}/><button className="kj-mobile-menu" type="button" onClick={()=>setMenuOpen(v=>!v)} aria-label="Toggle menu" aria-expanded={menuOpen}>{menuOpen?<X/>:<Menu/>}</button></div></div></header>
+  <header className="kj-header"><div className="kj-container kj-navbar"><Logo store={store}/><nav className={menuOpen?'kj-nav kj-nav-open':'kj-nav'} aria-label="Customer navigation"><NavLink to="/" end>Home</NavLink><NavLink to="/collections">Collections</NavLink><NavLink to="/about">About Us</NavLink><NavLink to="/contact">Contact Us</NavLink></nav><div className="kj-header-actions"><Link className="kj-icon-link kj-search-nav" to="/collections" aria-label="Browse and search jewellery"><Search size={19}/></Link><Link className="kj-icon-link kj-wishnav" to="/wishlist" aria-label={'Wishlist: '+wishlistCount+' saved pieces'}><Heart size={19}/>{wishlistCount>0&&<span className="kj-bubble">{wishlistCount}</span>}</Link><Link className="kj-icon-link" to="/cart" aria-label={'Shopping bag: '+cartCount+' items'}><ShoppingBag size={19}/>{cartCount>0&&<span className="kj-bubble">{cartCount}</span>}</Link><Link className="kj-icon-link" to="/login" aria-label="Account options" title="Account options"><UserRound size={20}/></Link><ThemePicker metal={metal} onMetalChange={onMetalChange}/><button className="kj-mobile-menu" type="button" onClick={()=>setMenuOpen(v=>!v)} aria-label="Toggle menu" aria-expanded={menuOpen}>{menuOpen?<X/>:<Menu/>}</button></div></div></header>
   <main className="kj-page">{children}</main>
   <footer className="kj-footer"><div className="kj-container kj-footer-grid"><div className="kj-footer-brand"><Logo small store={store}/><p>Timeless elegance, thoughtfully crafted. Discover jewellery to treasure for a lifetime.</p></div><div><h4>Explore</h4><Link to="/">Home</Link><Link to="/collections">All jewellery</Link><Link to="/wishlist">Your wishlist</Link><Link to="/about">Our story</Link></div><div><h4>Customer care</h4><Link to="/contact">Contact us</Link><Link to="/account">My account &amp; savings</Link><Link to="/location">Visit our store</Link><Link to="/orders">My orders</Link></div><div><h4>Visit Karthik Jewellers</h4><p>{store?.address||'Add your showroom address in Admin Settings.'}</p>{store?.phone&&<p>{store.phone}</p>}<a href={mapsUrl(store)} target="_blank" rel="noopener noreferrer">Get directions <ExternalLink size={13}/></a></div></div><div className="kj-container kj-copyright"><span>© {new Date().getFullYear()} Karthik Jewellers. All rights reserved.</span><span>Crafted with care ♡</span></div></footer>
  </div>

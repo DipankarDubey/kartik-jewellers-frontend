@@ -44,10 +44,15 @@ await page.route(api+'/**',async route=>{
 const base='http://127.0.0.1:5173';
 try{
  await page.goto(base+'/#/');
- await page.locator('summary[aria-label="Account options"]').click();
- await page.getByRole('link',{name:/Customer account/i}).waitFor({state:'visible'});
- await page.getByRole('link',{name:/Admin Login/i}).waitFor({state:'visible'});
- console.log('PASS: visible admin login link');
+ await page.getByRole('link',{name:'Account options'}).click();
+ await page.getByRole('heading',{name:'Sign in',exact:true}).waitFor();
+ await page.getByRole('link',{name:'Customer',exact:true}).click();
+ await page.waitForURL('**/#/account/login');
+ await page.getByRole('link',{name:'Account options'}).click();
+ await page.getByRole('link',{name:'Admin',exact:true}).click();
+ await page.waitForURL('**/#/admin/login');
+ await page.goBack();
+ console.log('PASS: both sign-in choices');
  await page.getByRole('link',{name:'Collections',exact:true}).first().click();
  await page.getByRole('heading',{name:'Gold Collections'}).waitFor();
  await page.getByRole('radio',{name:'Rings',exact:true}).check();
