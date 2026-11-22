@@ -7,6 +7,7 @@ export function LoginPage({metal, admin = false, children}) {
   return <main className="kj-login-choice" data-metal={metal}>
     <Link to="/" className="kj-login-back" aria-label="Back to home"><ArrowLeft size={20}/></Link>
     <section className="kj-login-card" aria-labelledby="login-title">
+      <img className="kj-login-necklace" src={'/images/necklace-'+metal.toLowerCase()+'.webp'} alt={metal+' necklace, shown in full'}/>
       <div className="kj-login-brand"><img src="/images/karthik-mark.webp" alt="Karthik Jewellers"/></div>
       <h1 id="login-title">Welcome back</h1>
       <nav className="kj-login-actions" aria-label="Sign-in role">
