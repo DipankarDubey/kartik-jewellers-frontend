@@ -46,6 +46,11 @@ try{
  await page.goto(base+'/#/');
  await page.getByRole('link',{name:'Account options'}).click();
  await page.getByRole('heading',{name:'Welcome back',exact:true}).waitFor();
+ await page.setViewportSize({width:320,height:740});
+ const customerRole = await page.getByRole('link',{name:'Customer',exact:true}).boundingBox();
+ const adminRole = await page.getByRole('link',{name:'Admin',exact:true}).boundingBox();
+ assert.equal(customerRole.y,adminRole.y,'Roles stay on one row on narrow phones');
+ await page.setViewportSize({width:1365,height:860});
  await page.getByLabel('Username',{exact:true}).waitFor();
  await page.getByRole('button',{name:'Forgot password?'}).click();
  await page.getByRole('heading',{name:'Reset password'}).waitFor();
@@ -103,7 +108,7 @@ try{
  console.log('PASS: contact form submits via UI (mock API)');
  await page.goto(base+'/#/admin/login');
  await page.getByLabel('Admin username').fill('test-admin');
- await page.getByLabel('Password').fill('TestOnlyPassword123!');
+ await page.getByLabel('Password',{exact:true}).fill('TestOnlyPassword123!');
  await page.getByRole('button',{name:'Sign in',exact:true}).click();
  await page.getByRole('link',{name:'Orders & Offers',exact:true}).click();
  await page.getByRole('heading',{name:'Orders and offers',exact:true}).waitFor();
