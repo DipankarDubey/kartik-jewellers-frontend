@@ -7,6 +7,7 @@ import {LoginPage, LoginPassword} from './login-page.jsx';
 import {CustomerLogin, CustomerAccount, AdminSavings} from './savings.jsx';
 import {StorefrontShell,HomePage,CatalogPage,DetailPage,AboutPage,ContactPage,WishlistPage} from './showcase.jsx';
 import {AdminOrders, CartPage, MyOrdersPage, readCart, saveCart} from './shop.jsx';
+import './atelier.css';
 const API=import.meta.env.VITE_API_URL||(import.meta.env.PROD?'https://kartik-jewellers-api.onrender.com/api':'http://localhost:5000/api');
 const optimizedImage=(url,width=960)=>{if(!url||!url.includes('res.cloudinary.com/')||!url.includes('/image/upload/'))return url;return url.replace('/image/upload/','/image/upload/f_auto,q_95,c_limit,w_'+width+'/');};
 const fmt=n=>'₹'+Number(n||0).toLocaleString('en-IN');
