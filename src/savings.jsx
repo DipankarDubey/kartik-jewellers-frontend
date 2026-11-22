@@ -242,6 +242,7 @@ export function CustomerAccount({api}) {
       Manage your plans, monthly installments and payment history in one place.
     </PageIntro>
     <div className="sv-toolbar">
+      <Link to="/" className="sv-sidebar-logo"><img src="/images/glass-monogram.webp" alt="Karthik Jewellers home"/></Link>
       <nav aria-label="Savings dashboard" className="sv-tabs">
         {[['enrolled', 'My plans', Wallet], ['plans', 'Available plans', CalendarDays], ['transactions', 'Transactions', History], ['profile', 'Profile', UserRound]].map(([key, label, Icon]) =>
           <button key={key} type="button" aria-current={tab === key ? 'page' : undefined} onClick={() => {setSelected(null);setParams({tab: key});}}><Icon size={16} aria-hidden="true"/>{label}</button>)}
