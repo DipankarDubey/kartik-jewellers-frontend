@@ -38,16 +38,24 @@ html[data-metal="silver"] {
   background: var(--glass-backdrop);
   color: var(--glass-ink);
 }
+.kj-site {
+  --store-gutter: clamp(14px, 1.6vw, 30px);
+}
+.kj-site .kj-container {
+  width: calc(100% - 2 * var(--store-gutter));
+  max-width: none;
+}
 .kj-site .kj-metal-header {
   height: auto;
-  padding: 12px 0;
+  padding: 0;
   border: 0;
   background: transparent;
   box-shadow: none;
 }
 .kj-site .kj-metal-header .kj-navbar {
-  width: min(1280px, calc(100% - 32px));
+  width: 100%;
   min-height: 75px;
+  border-radius: 0;
   border: 1px solid var(--glass-edge);
   background: var(--glass-panel);
   box-shadow: var(--glass-frame-shadow);
@@ -122,7 +130,7 @@ html[data-metal="silver"] .kj-glass-hero :focus-visible {
   outline-color: var(--glass-light);
 }
 
-.kj-site .kj-page :is(.kj-glass-hero, .kj-collection-banner, .kj-category-card, .kj-exact-product, .kj-featurestrip, .kj-filter-panel, .kj-detail-info, .kj-detail-description, .kj-contact-form, .kj-contact-details, .kj-glass-story, .kj-empty-collection, .sv-panel, .sv-tabs, .sv-table-wrap),
+.kj-site .kj-page :is(.kj-glass-hero, .kj-category-card, .kj-exact-product, .kj-featurestrip, .kj-filter-panel, .kj-detail-info, .kj-detail-description, .kj-contact-form, .kj-contact-details, .kj-glass-story, .kj-empty-collection, .sv-panel, .sv-tabs, .sv-table-wrap),
 .kj-admin :is(.admin-panel, .kj-admin-content-card, .sv-panel, .modal-card, .kj-admin-stats > *, .sv-table-wrap),
 .kj-login-form-panel {
   background: var(--glass-panel);
@@ -165,12 +173,13 @@ html[data-metal="silver"] .kj-glass-hero :focus-visible {
   position: relative;
   display: flex;
   align-items: center;
-  max-width: 1350px;
-  min-height: clamp(330px, 41vw, 560px);
+  width: 100%;
+  min-height: clamp(330px, 42vw, 800px);
   padding: clamp(24px, 7vw, 105px);
   overflow: hidden;
   color: var(--glass-ink);
-  border-radius: clamp(14px, 2vw, 25px);
+  border: 0;
+  border-radius: 0;
 }
 .kj-site .kj-glass-hero::before { content: none; }
 .kj-site .kj-glass-hero::after {
@@ -247,15 +256,45 @@ html[data-metal="silver"] .kj-glass-hero :focus-visible {
 }
 .kj-glass-hero-dots button[aria-pressed="true"]::before { background: var(--glass-light); }
 .kj-site .kj-exact-trust {
-  width: min(1280px, calc(100% - 32px));
-  margin: 12px auto 0;
+  width: 100%;
+  margin-top: 0;
 }
-.kj-site .kj-page .kj-exact-trust .kj-featurestrip { padding: 8px 14px; }
-.kj-site .kj-exact-banner .kj-page-banner-inner { min-height: clamp(165px, 20vw, 290px); }
-.kj-site .kj-page .kj-collection-banner {
-  width: min(1350px, calc(100% - 32px));
-  margin: 0 auto;
+.kj-site .kj-page .kj-exact-trust .kj-featurestrip {
+  padding: 8px var(--store-gutter);
+  border-radius: 0;
+}
+.kj-ring-banner {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  min-height: max(178px, 31.25vw);
+  padding: 20px clamp(16px, 6vw, 110px);
   overflow: hidden;
+  background: #26090d;
+  color: #fff;
+}
+.kj-site[data-metal="Silver"] .kj-ring-banner { background: #081427; }
+.kj-ring-banner-image {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right center;
+}
+.kj-ring-banner-copy { max-width: 46%; }
+.kj-ring-banner-copy h1 {
+  color: inherit;
+  margin: 0 0 .3em;
+  font: 600 clamp(24px, 4vw, 64px)/1.08 Georgia, serif;
+}
+.kj-ring-banner-copy p {
+  max-width: 30ch;
+  margin: 0;
+  font-size: clamp(.75rem, 1.2vw, 1.125rem);
 }
 .kj-site .kj-page .kj-glass-story {
   display: grid;
@@ -271,34 +310,46 @@ html[data-metal="silver"] .kj-glass-hero :focus-visible {
 .kj-glass-story-copy .kj-btn { margin-top: 12px; }
 
 .kj-site .kj-login-choice {
-  min-height: calc(100svh - 99px);
+  min-height: calc(100svh - 75px);
+  padding: clamp(32px, 5vw, 64px) var(--store-gutter);
+  align-items: center;
+  justify-items: center;
 }
 .kj-login-choice .kj-login-back { z-index: 2; }
 .kj-login-choice .kj-login-card {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  width: min(100%, 950px);
-  padding: 8px;
+  width: min(100%, 1040px);
+  padding: 0;
+  overflow: hidden;
   background: var(--glass-panel);
   border: 1px solid var(--glass-edge);
   border-radius: 22px;
   box-shadow: var(--glass-frame-shadow);
 }
+.kj-login-photo {
+  position: relative;
+  min-height: 0;
+  background: #28080d;
+}
+.kj-login-choice[data-metal="Silver"] .kj-login-photo { background: #060e20; }
 .kj-login-choice .kj-login-necklace {
   position: absolute;
-  inset: 0 auto 0 0;
-  width: 53%;
+  inset: 0;
+  width: 100%;
   height: 100%;
   margin: 0;
   border-radius: 0;
   object-fit: contain;
-  object-position: 50% 50%;
 }
-.kj-login-form-panel {
-  position: relative;
-  z-index: 1;
-  grid-column: 2;
-  padding: clamp(14px, 3vw, 30px);
+.kj-login-card .kj-login-form-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding: clamp(16px, 3.6vw, 48px);
+  border: 0;
+  border-radius: 0;
 }
 .kj-login-brand {
   width: clamp(100px, 29vw, 145px);
@@ -338,7 +389,6 @@ html[data-metal="silver"] .kj-glass-hero :focus-visible {
 
 @media (max-width: 1000px) {
   .kj-site .kj-metal-header .kj-navbar {
-    width: calc(100% - 20px);
     min-height: 62px;
     gap: 5px;
     padding: 4px 8px;
@@ -375,18 +425,16 @@ html[data-metal="silver"] .kj-glass-hero :focus-visible {
   }
   .kj-site .kj-page .kj-glass-story { grid-template-columns: 1fr; }
   .kj-glass-story .kj-about-photo { min-height: 160px; }
-  .kj-login-choice .kj-login-card { position: relative; grid-template-columns: 1fr; width: min(100%, 470px); padding: 6px; }
-  .kj-login-choice .kj-login-necklace { position: static; width: 100%; height: 144px; border-radius: 16px 16px 0 0; }
-  .kj-login-form-panel { grid-column: 1; margin-top: -10px; }
+  .kj-site .kj-login-choice { min-height: calc(100svh - 62px); padding-top: 64px; }
+  .kj-login-choice .kj-login-card { grid-template-columns: 1fr; width: min(100%, 470px); }
+  .kj-login-photo { height: clamp(160px, 38vw, 220px); }
+  .kj-ring-banner-copy { max-width: 44%; }
+  .kj-site .kj-page .kj-ring-banner .kj-btn { padding-inline: 10px; font-size: .75rem; }
   .kj-admin-identity { display: none; }
   .kj-admin .admin-header { padding-inline: 8px; }
   .kj-admin .admin-header > span { font-size: 16px; }
   .kj-admin .admin-header .kj-metal-picker button { padding-inline: 7px; font-size: .75rem; }
   .kj-site .kj-page .kj-exact-trust .kj-featurestrip { padding-inline: 4px; }
-}
-
-@media (min-width: 721px) {
-  .kj-login-choice .kj-login-card { position: relative; overflow: hidden; }
 }
 
 .kj-admin .admin-header {
