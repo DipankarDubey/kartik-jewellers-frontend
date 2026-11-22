@@ -103,7 +103,7 @@ function CollectionBanner({metal, onShopRings}) {
  return <section className="kj-ring-banner">
   <img className="kj-ring-banner-image" src={image + '.webp'}
    srcSet={`${image}-980.webp 980w, ${image}.webp 1942w`}
-   sizes="(max-width: 500px) 140vw, 100vw" width="1942" height="809"
+   sizes="(max-width: 1062px) 400px, 37.5vw" width="1942" height="809"
    alt="" fetchPriority="high"/>
   <div className="kj-ring-banner-copy">
    <h1>{metal} Collections</h1>
@@ -133,7 +133,7 @@ export function AboutPage({metal}){
     <p>{gold ? 'Discover gold jewellery that brings traditional Indian artistry to bridal and everyday designs.' : 'Explore silver jewellery that pairs traditional detailing with contemporary designs.'}</p>
     <Link className="kj-btn kj-btn-solid" to="/collections">Explore Designs <ArrowRight size={17}/></Link>
    </div>
-   <div className="kj-about-photo"><img src={'/images/atelier-'+metal.toLowerCase()+'-heritage.webp'} alt={metal+' heritage necklace on velvet'}/></div>
+   <div className="kj-about-photo"><img src={'/images/about-'+metal.toLowerCase()+'-necklace.webp'} width="1254" height="1254" alt={metal+' heritage necklace on velvet, shown in full'}/></div>
   </section>
   <div className="kj-container kj-about-benefits"><FeatureStrip metal={metal}/></div>
  </>;
