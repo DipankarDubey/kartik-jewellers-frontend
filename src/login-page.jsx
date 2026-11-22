@@ -4,19 +4,21 @@ import {ArrowLeft, Eye, EyeOff, LockKeyhole, ShieldCheck, UserRound} from 'lucid
 import './login-choice.css';
 
 export function LoginPage({metal, admin = false, children}) {
-  return <main className="kj-login-choice" data-metal={metal}>
+  return <section className="kj-login-choice" data-metal={metal} aria-labelledby="login-title">
     <Link to="/" className="kj-login-back" aria-label="Back to home"><ArrowLeft size={20}/></Link>
-    <section className="kj-login-card" aria-labelledby="login-title">
+    <div className="kj-login-card">
       <img className="kj-login-necklace" src={'/images/necklace-'+metal.toLowerCase()+'.webp'} alt={metal+' necklace, shown in full'}/>
-      <div className="kj-login-brand"><img src="/images/karthik-mark.webp" alt="Karthik Jewellers"/></div>
-      <h1 id="login-title">Welcome back</h1>
-      <nav className="kj-login-actions" aria-label="Sign-in role">
-        <Link to="/login" aria-current={admin ? undefined : 'page'} className="kj-login-role"><UserRound size={21} aria-hidden="true"/>Customer</Link>
-        <Link to="/admin/login" aria-current={admin ? 'page' : undefined} className="kj-login-role"><ShieldCheck size={21} aria-hidden="true"/>Admin</Link>
-      </nav>
-      {children}
-    </section>
-  </main>;
+      <div className="kj-login-form-panel">
+        <div className="kj-login-brand"><img src="/images/glass-monogram.webp" alt="Karthik Jewellers"/></div>
+        <h1 id="login-title">Welcome back</h1>
+        <nav className="kj-login-actions" aria-label="Sign-in role">
+          <Link to="/login" aria-current={admin ? undefined : 'page'} className="kj-login-role"><UserRound size={21} aria-hidden="true"/>Customer</Link>
+          <Link to="/admin/login" aria-current={admin ? 'page' : undefined} className="kj-login-role"><ShieldCheck size={21} aria-hidden="true"/>Admin</Link>
+        </nav>
+        {children}
+      </div>
+    </div>
+  </section>;
 }
 
 export function LoginPassword({label = 'Password', action, ...props}) {
