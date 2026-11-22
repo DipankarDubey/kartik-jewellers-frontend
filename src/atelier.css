@@ -81,3 +81,29 @@ html[data-metal="silver"] {
   background:url('/images/atelier-showroom.webp') center / cover;
   border:1px solid var(--atelier-rim); border-radius:10px;
 }
+.kj-site[data-metal] .kj-exact-hero .kj-hero-grid {
+  min-height:clamp(280px,28vw,620px);
+}
+.kj-site[data-metal] .kj-exact-hero .kj-hero-copy {padding:24px 0;}
+.kj-site[data-metal] .kj-exact-hero .kj-exact-media img {object-position:82% top;}
+.kj-site[data-metal] .kj-exact-hero .kj-kicker {font:600 clamp(11px,1vw,15px)/1.4 system-ui;letter-spacing:.12em;text-transform:uppercase;}
+.kj-site[data-metal] .kj-exact-hero h1 {font-size:clamp(24px,4vw,66px);line-height:1.06;margin:.35em 0;}
+.kj-site[data-metal] .kj-exact-hero h1 em {font-style:normal;}
+.kj-site[data-metal] .kj-exact-hero .kj-hero-buttons .kj-btn {border-radius:30px;min-width:0;}
+.kj-site[data-metal] .kj-exact-hero .kj-hero-buttons .kj-btn-solid {background:linear-gradient(var(--atelier-glint),var(--atelier-active));color:white!important;}
+.kj-login-choice .kj-login-card::before {display:none;}
+.kj-login-necklace {display:block;object-fit:contain;background:#28080d;border-radius:15px;}
+.kj-login-choice[data-metal="Silver"] .kj-login-necklace {background:#060e20;}
+@media(min-width:850px){
+  .kj-login-necklace {position:absolute;inset:0 auto 0 0;width:42%;height:100%;border-radius:0;}
+}
+@media(max-width:849px){
+  .kj-login-necklace {width:auto;height:100px;margin:0 auto .75rem;}
+}
+@media(max-width:600px){
+  .kj-site[data-metal] .kj-exact-hero .kj-hero-grid {min-height:clamp(208px,55vw,300px);}
+  .kj-site[data-metal] .kj-exact-hero .kj-exact-media img {object-position:76% top;}
+  .kj-site[data-metal] .kj-exact-hero .kj-exact-media::after {background:linear-gradient(90deg,#111921bd,transparent 74%);}
+  .kj-site[data-metal] .kj-exact-hero .kj-hero-copy {padding:16px 0;}
+  .kj-site[data-metal] .kj-exact-hero .kj-hero-buttons {width:max-content;max-width:100%;grid-template-columns:1fr;}
+}
