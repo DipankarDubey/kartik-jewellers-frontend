@@ -13,9 +13,12 @@
   place-items: center;
   isolation: isolate;
   overflow: hidden;
-  padding: 2rem 1.2rem;
+  padding: 4rem clamp(.65rem, 3vw, 2rem);
   color: var(--ink);
-  background: radial-gradient(ellipse at 50% 30%, var(--highlight), var(--surface) 70%);
+  background:
+    radial-gradient(circle at 103% 18%, var(--disc) 0 9vw, var(--highlight) 9.1vw, transparent 9.4vw),
+    radial-gradient(circle at -3% 108%, var(--disc) 0 14vw, var(--highlight) 14.2vw, transparent 14.5vw),
+    radial-gradient(ellipse at center, var(--highlight), var(--surface) 65%, var(--disc));
   font-family: Inter, system-ui, sans-serif;
 }
 .kj-login-choice[data-metal="Silver"] {
@@ -55,7 +58,16 @@
   background: var(--highlight);
   box-shadow: 0 4px 14px var(--shadow);
 }
-.kj-login-card { width: min(100%, 27rem); margin-top: 1.4rem; }
+.kj-login-card {
+  width: min(100%, 29rem);
+  min-width: 0;
+  padding: clamp(1rem, 3vw, 1.8rem);
+  border: 1px solid var(--highlight);
+  border-radius: clamp(1.6rem, 4vw, 3rem);
+  background: linear-gradient(155deg, var(--surface), var(--highlight) 57%, var(--surface));
+  box-shadow: inset 0 2px 4px var(--highlight), inset 0 -3px 4px var(--shadow),
+    0 18px 38px var(--shadow), 0 3px 7px var(--shadow);
+}
 .kj-login-brand {
   width: clamp(10rem, 38vw, 13rem);
   margin: 0 auto;
@@ -67,7 +79,7 @@
 }
 .kj-login-brand img { display: block; width: 100%; height: auto; }
 .kj-login-choice[data-metal="Silver"] .kj-login-brand img {
-  filter: grayscale(1) sepia(.28) hue-rotate(164deg) saturate(2.2);
+  filter: grayscale(1) sepia(.9) hue-rotate(165deg) saturate(2.4);
 }
 .kj-login-card h1 {
   margin: .8rem 0 1.05rem;
@@ -132,3 +144,9 @@
 .kj-login-role svg { flex: none; }
 .kj-login-username, .kj-login-mobile { margin-top: .35rem; }
 .kj-login-mobile { display: block; }
+
+.kj-login-password > svg { box-sizing: content-box; padding-right: .7rem; border-right: 1px solid var(--edge); }
+.kj-login-submit { font-size: 1.2rem; }
+.kj-login-role[aria-current], .kj-login-submit {
+  background-image: linear-gradient(175deg, var(--edge), var(--button-top) 24%, var(--button-bottom) 95%);
+}
