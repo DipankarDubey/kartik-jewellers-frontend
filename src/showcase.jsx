@@ -4,7 +4,6 @@ import {ArrowRight,ArrowLeft,Heart,Search,Menu,X,MapPin,Phone,Mail,Instagram,Shi
 import './showcase.css';
 import './reference.css';
 import './faithful.css';
-import './login-choice.css';
 
 const money=value=>'₹'+Number(value||0).toLocaleString('en-IN');
 const categories=[
@@ -26,22 +25,6 @@ const mapsUrl=store=>store?.mapsUrl||'https://www.google.com/maps/search/?api=1&
 function Logo({store,small=false}){return <Link to="/" className={'kj-logo kj-faithful-brand'+(small?' kj-logo-small':'')} aria-label="Karthik Jewellers homepage"><img src='/images/karthik-mark.webp' alt="Karthik Jewellers — Timeless Elegance"/></Link>}
 function ThemePicker({metal,onMetalChange}){return <div className="kj-metal-picker" aria-label="Choose jewellery metal"><button type="button" className={metal==='Gold'?'active gold':''} onClick={()=>onMetalChange('Gold')} aria-pressed={metal==='Gold'}>Gold</button><button type="button" className={metal==='Silver'?'active silver':''} onClick={()=>onMetalChange('Silver')} aria-pressed={metal==='Silver'}>Silver</button></div>}
 function FeatureStrip({metal}){const items=[{icon:Gem,heading:metal==='Gold'?'BIS Hallmarked':'925 Sterling Silver',desc:'Purity & confidence'},{icon:ShieldCheck,heading:'Trusted Since Years',desc:'A legacy of trust'},{icon:Gift,heading:'Exquisite Designs',desc:'Traditional & modern'},{icon:Truck,heading:'Personalised Service',desc:'Visit our store'}];return <div className="kj-featurestrip">{items.map(item=><div key={item.heading}><item.icon size={22}/><span><strong>{item.heading}</strong><small>{item.desc}</small></span></div>)}</div>}
-export function SignInPage({metal}) {
- return <section className="kj-login-choice" aria-labelledby="login-title">
-   <div className="kj-login-card">
-     <img className="kj-login-art" alt="" src={'/images/collection-'+metal.toLowerCase()+'-right.webp'}/>
-     <div className="kj-login-content">
-       <h1 id="login-title">Sign in</h1>
-       <p>Choose how you’d like to continue.</p>
-       <div className="kj-login-actions">
-         <Link className="kj-login-role" to="/account"><UserRound aria-hidden="true"/>Customer<ArrowRight size={17} aria-hidden="true"/></Link>
-         <Link className="kj-login-role" to="/admin/login"><ShieldCheck aria-hidden="true"/>Admin<ArrowRight size={17} aria-hidden="true"/></Link>
-       </div>
-     </div>
-   </div>
- </section>;
-}
-
 export function StorefrontShell({children,metal,onMetalChange,store,wishlistCount=0,cartCount=0}){
  const[menuOpen,setMenuOpen]=useState(false);
  const location=useLocation();

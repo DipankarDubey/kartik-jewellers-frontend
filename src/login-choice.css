@@ -1,35 +1,134 @@
 .kj-login-choice {
-  --role-color: #67451c;
-  --role-line: #d7c7ac;
+  --ink: #532b0b;
+  --surface: #f9ead9;
+  --edge: #c8934d;
+  --shadow: #87470832;
+  --highlight: #fffaf0;
+  --button-top: #9e590b;
+  --button-bottom: #703600;
+  --disc: #eac795;
+  position: relative;
+  min-height: 100svh;
   display: grid;
   place-items: center;
-  padding: clamp(2rem, 7vw, 6rem) 1rem;
-  background: #faf6ee;
-}
-[data-metal="Silver"] .kj-login-choice {
-  --role-color: #293f59;
-  --role-line: #b8c6d5;
-  background: #f0f4f8;
-}
-.kj-login-card {
-  width: min(100%, 36rem);
+  isolation: isolate;
   overflow: hidden;
-  background: white;
-  border: 1px solid var(--role-line);
-  border-radius: 1rem;
-  box-shadow: 0 12px 36px #30281912;
+  padding: 2rem 1.2rem;
+  color: var(--ink);
+  background: radial-gradient(ellipse at 50% 30%, var(--highlight), var(--surface) 70%);
+  font-family: Inter, system-ui, sans-serif;
 }
-.kj-login-art {display: block; width: 100%; aspect-ratio: 4 / 1; object-fit: cover; object-position: right center;}
-.kj-login-content {padding: clamp(1.4rem, 4vw, 2.6rem);}
-.kj-login-content h1 {margin: 0; font: normal clamp(2rem, 5vw, 3rem)/1.1 Georgia, serif; color: var(--role-color);}
-.kj-login-content p {margin: .7rem 0 1.6rem; color: #505050;}
-.kj-login-actions {display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr)); gap: .75rem;}
-.kj-login-role {
-  display: flex; align-items: center; gap: .55rem;
-  padding: 1rem; border: 1px solid var(--role-line); border-radius: .55rem;
-  font-weight: 600; text-decoration: none; color: var(--role-color);
+.kj-login-choice[data-metal="Silver"] {
+  --ink: #0c315c;
+  --surface: #c9dff3;
+  --edge: #6489ae;
+  --shadow: #16457936;
+  --highlight: #eff8ff;
+  --button-top: #285982;
+  --button-bottom: #092d53;
+  --disc: #a4c5e4;
 }
-.kj-login-role:first-child {background: var(--role-color); border-color: var(--role-color); color: white;}
-.kj-login-role svg:last-child {margin-left: auto;}
-.kj-login-role:hover {box-shadow: 0 2px 8px #30281922; border-color: var(--role-color);}
-.kj-login-role:focus-visible {outline: 3px solid var(--role-color); outline-offset: 3px;}
+.kj-login-choice::before,
+.kj-login-choice::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: clamp(8rem, 25vw, 23rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid var(--highlight);
+  background: linear-gradient(135deg, var(--highlight), var(--disc));
+  box-shadow: 0 0 0 16px var(--surface), 0 0 0 18px var(--highlight), 10px 20px 48px var(--shadow);
+}
+.kj-login-choice::before { top: 0; left: 0; transform: translate(-50%, -57%); }
+.kj-login-choice::after { right: 0; bottom: 0; transform: translate(50%, 57%); }
+.kj-login-back {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: inherit;
+  background: var(--highlight);
+  box-shadow: 0 4px 14px var(--shadow);
+}
+.kj-login-card { width: min(100%, 27rem); margin-top: 1.4rem; }
+.kj-login-brand {
+  width: clamp(10rem, 38vw, 13rem);
+  margin: 0 auto;
+  padding: .8rem 1rem;
+  border: 2px solid var(--highlight);
+  border-radius: 1.8rem;
+  background: linear-gradient(135deg, var(--highlight), var(--surface));
+  box-shadow: 0 10px 23px var(--shadow), inset 0 2px 5px var(--highlight);
+}
+.kj-login-brand img { display: block; width: 100%; height: auto; }
+.kj-login-choice[data-metal="Silver"] .kj-login-brand img {
+  filter: grayscale(1) sepia(.28) hue-rotate(164deg) saturate(2.2);
+}
+.kj-login-card h1 {
+  margin: .8rem 0 1.05rem;
+  text-align: center;
+  color: inherit;
+  font: 800 clamp(1.8rem, 7vw, 2.5rem)/1.12 Inter, system-ui, sans-serif;
+  letter-spacing: -.04em;
+}
+.kj-login-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; }
+.kj-login-role,
+.kj-login-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  min-height: 50px;
+  border: 1px solid var(--edge);
+  border-radius: 100px;
+  color: var(--ink);
+  background: linear-gradient(175deg, var(--highlight), var(--surface));
+  box-shadow: inset 0 0 0 1px var(--highlight), 0 6px 13px var(--shadow);
+  font: 750 1rem/1.2 Inter, system-ui, sans-serif;
+  text-decoration: none;
+  padding: .65rem .45rem;
+}
+.kj-login-role[aria-current],
+.kj-login-submit {
+  color: #fff;
+  background: linear-gradient(172deg, var(--button-top), var(--button-bottom) 90%);
+  box-shadow: inset 0 1px 3px var(--edge), 0 6px 15px var(--shadow);
+}
+.kj-login-submit { min-height: 54px; margin-top: .45rem; cursor: pointer; }
+.kj-login-submit:disabled { opacity: .7; cursor: wait; }
+.kj-login-role:hover, .kj-login-submit:not(:disabled):hover { filter: brightness(1.08); }
+.kj-login-choice :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.kj-login-form { display: grid; gap: .85rem; margin-top: 1rem; }
+.kj-login-form h2 { margin: 0; font: 750 1.15rem/1.2 Inter, system-ui, sans-serif; color: inherit; }
+.kj-login-form label { display: block; font-size: .95rem; font-weight: 750; }
+.kj-login-form label > input { margin-top: .35rem; }
+.kj-login-form > label:has(+ input) { margin-bottom: -.5rem; }
+.kj-login-form input,
+.kj-login-password {
+  width: 100%;
+  min-height: 49px;
+  padding: 0 .9rem;
+  border: 1px solid var(--highlight);
+  border-radius: .95rem;
+  background: color-mix(in srgb, var(--surface) 72%, var(--highlight));
+  box-shadow: inset 0 2px 5px var(--shadow), 0 4px 12px var(--shadow);
+  color: var(--ink);
+  font: 500 1rem/1.3 Inter, system-ui, sans-serif;
+}
+.kj-login-form input::placeholder { color: color-mix(in srgb, var(--ink) 78%, var(--surface)); }
+.kj-login-label-row { display: flex; align-items: baseline; justify-content: space-between; gap: .5rem; margin-bottom: .35rem; }
+.kj-login-password { display: flex; align-items: center; padding-right: .2rem; }
+.kj-login-password > svg { flex: none; }
+.kj-login-password input { flex: 1; min-width: 0; border: 0; background: transparent; box-shadow: none; outline-offset: -3px; }
+.kj-login-password button, .kj-login-link { border: 0; background: none; color: inherit; cursor: pointer; }
+.kj-login-password button { display: grid; place-items: center; width: 44px; height: 44px; flex: none; border-radius: .7rem; }
+.kj-login-link { padding: .25rem 0; font: inherit; font-size: .9rem; font-weight: 750; text-decoration: underline; text-underline-offset: .17em; }
+.kj-login-register { margin: 0; text-align: center; font-size: .9rem; }
+.kj-login-role svg { flex: none; }
+.kj-login-username, .kj-login-mobile { margin-top: .35rem; }
+.kj-login-mobile { display: block; }

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link, Navigate, useNavigate, useSearchParams} from 'react-router-dom';
 import {ArrowRight, CalendarDays, Gem, History, LockKeyhole, Plus, UserRound, Wallet} from 'lucide-react';
 import './savings.css';
+import {LoginPassword} from './login-page.jsx';
 
 const tokenKey = 'kj_customer_session';
 export const storedToken = () => {
@@ -108,45 +109,45 @@ export function CustomerLogin({api}) {
     navigate(target, {replace: true});
   }
 
-  return <section className="kj-container sv-page sv-login">
-    <PageIntro eyebrow="Karthik Jewellers" title="Your customer account">
-      Sign in to manage your jewellery orders and savings plans.
-    </PageIntro>
-    <form className="sv-panel sv-login-form" onSubmit={event => {event.preventDefault(); run(submit);}}>
-      <LockKeyhole size={25} aria-hidden="true"/>
-      <h2>{replacePassword ? 'Replace your temporary password' : signingIn ? 'Sign in with mobile number' :
-        mode === 'register' ? 'Create a customer account' : 'Reset password'}</h2>
+  return <form className="kj-login-form" onSubmit={event => {event.preventDefault(); run(submit);}}>
+      {replacePassword && <h2>Replace your temporary password</h2>}
+      {!signingIn && <h2>{mode === 'register' ? 'Create a customer account' : 'Reset password'}</h2>}
       {mode === 'register' && !sent && <label>Name<input required value={name} onChange={e => setName(e.target.value)} maxLength={120} autoComplete="name"/></label>}
-      <label>Mobile number<input type="tel" inputMode="tel" autoComplete={signingIn ? 'username' : 'tel'} value={mobile}
-        onChange={e => setMobile(e.target.value)} readOnly={sent || replacePassword} required maxLength={30} placeholder="10-digit Indian mobile number"/></label>
+      <label>{signingIn ? 'Username' : 'Mobile number'}
+        <span className={signingIn ? 'kj-login-password kj-login-username' : 'kj-login-mobile'}>
+          {signingIn && <UserRound size={19} aria-hidden="true"/>}
+          <input type="tel" inputMode="tel" autoComplete={signingIn ? 'username' : 'tel'} value={mobile}
+            onChange={e => setMobile(e.target.value)} readOnly={sent || replacePassword} required maxLength={30} placeholder="Mobile number"/>
+        </span>
+      </label>
       {!signingIn && <label>Email<input type="email" autoComplete="email" value={email} onChange={e => {setEmail(e.target.value);setVerificationRequired(false);setError('');}} readOnly={sent} required maxLength={254}/></label>}
-      {(signingIn || mode === 'register' || sent) && <label>{replacePassword ? 'Temporary password' : 'Password'}
-        <input type="password" required autoComplete={signingIn ? 'current-password' : 'new-password'} minLength={signingIn ? undefined : 12}
-          maxLength={72} readOnly={replacePassword} value={password} onChange={e => setPassword(e.target.value)}/>
-      </label>}
+      {(signingIn || mode === 'register' || sent) && <LoginPassword key={mode}
+        label={replacePassword ? 'Temporary password' : 'Password'}
+        action={signingIn && !replacePassword && <button type="button" className="kj-login-link"
+          disabled={busy} onClick={() => changeMode('reset')}>Forgot password?</button>}
+        required autoComplete={signingIn ? 'current-password' : 'new-password'} minLength={signingIn ? undefined : 12}
+        maxLength={72} readOnly={replacePassword} value={password} onChange={e => setPassword(e.target.value)}/>}
       {replacePassword && <label>New password<input type="password" minLength={12} maxLength={72} autoComplete="new-password"
         value={newPassword} onChange={e => setNewPassword(e.target.value)} required/></label>}
       {(mode === 'register' || sent || replacePassword) && <small>Use at least 12 characters.</small>}
       {sent && <label>Email verification code<input inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" maxLength={6} value={code} onChange={e => setCode(e.target.value)} required/></label>}
       {verificationRequired && !sent && <Message message="This email already has a customer account. Request a code to keep that account, or use a different email to create a separate account."/>}
-      <button className="kj-btn kj-btn-solid" disabled={busy}>{busy ? 'Please wait…' : replacePassword ? 'Set password and sign in' :
+      <button className="kj-login-submit" disabled={busy}>{busy ? 'Please wait…' : replacePassword ? 'Set password and sign in' :
         signingIn ? 'Sign in' : sent ? mode === 'register' ? 'Verify email and create account' : 'Save password and sign in' :
-          mode === 'register' && !verificationRequired ? 'Create account' : 'Email me a verification code'}<ArrowRight aria-hidden="true" size={17}/></button>
+          mode === 'register' && !verificationRequired ? 'Create account' : 'Email me a verification code'}</button>
       {sent && <div className="sv-actions">
         <button type="button" className="sv-text-btn" disabled={busy} onClick={() => run(sendCode)}>Resend code</button>
         <button type="button" className="sv-text-btn" disabled={busy} onClick={() => {setSent(false);setVerificationRequired(false);setCode('');setError('');setMessage('');}}>Edit contact details</button>
       </div>}
-      <div className="sv-actions">
-        {signingIn ? <>
-          <button type="button" className="sv-text-btn" disabled={busy} onClick={() => changeMode('register')}>Create account</button>
-          <button type="button" className="sv-text-btn" disabled={busy} onClick={() => changeMode('reset')}>Reset password</button>
-        </> : <button type="button" className="sv-text-btn" disabled={busy} onClick={() => changeMode('login')}>Back to sign in</button>}
-      </div>
-      {signingIn && !replacePassword && <p className="sv-login-hint">Previously used email or Google sign-in? Choose <strong>Create account</strong> and verify the same email to keep your existing orders and plans.</p>}
-      <a className="sv-login-hint" href="/privacy.html">Privacy notice</a>
+      {signingIn ? !replacePassword && <p className="kj-login-register">New customer?{' '}
+        <button type="button" className="kj-login-link" disabled={busy} onClick={() => changeMode('register')}>Create account</button>
+      </p> : <div className="sv-actions">
+        <button type="button" className="kj-login-link" disabled={busy} onClick={() => changeMode('login')}>Back to sign in</button>
+      </div>}
+      {mode === 'register' && !sent && <p className="sv-login-hint">Previously signed in with email or Google? Use the same email to keep your existing orders and plans.</p>}
+      {!signingIn && <a className="sv-login-hint" href="/privacy.html">Privacy notice</a>}
       <Message message={message}/><Message message={error} type="error"/>
-    </form>
-  </section>;
+    </form>;
 }
 
 function PlanFacts({plan}) {
